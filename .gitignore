@@ -53,3 +53,5 @@ code/.vs/examples/v15/.suo
 *.ipch
 *.db-shm
 *.db-wal
+*.qmake.stash
+*Makefile*
