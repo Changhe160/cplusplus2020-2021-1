@@ -26,3 +26,7 @@ code/.vs/examples/v15/.suo
 *.vrb
 homework/
 *.enc
+*.aux
+*.log
+*.toc
+
