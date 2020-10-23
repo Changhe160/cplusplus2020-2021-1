@@ -1,4 +1,3 @@
-
 *.ipch
 *.db
 *.log
@@ -18,13 +17,8 @@
 *.opendb
 *.db-shm
 *.db-wal
-code/.vs/examples/v15/.suo
-code/.vs/examples/v15/.suo
-code/.vs/examples/v15/.suo
-code/.vs/examples/v15/.suo
 *.toc
 *.vrb
-homework/
 *.enc
 *.aux
 *.log
