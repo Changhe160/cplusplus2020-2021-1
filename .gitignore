@@ -531,3 +531,10 @@ TSWLatexianTemp*
 *.lpz
 
 *Debug
+*.aux
+*.log
+*.nav
+*.out
+*.synctex
+*.toc
+*.vrb
