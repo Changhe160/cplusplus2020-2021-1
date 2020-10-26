@@ -1,45 +1,44 @@
-\frametitle{7.3.2~二分查找算法}
+\frametitle{7.1.5~可变参函数模板\normalsize {~---~转发参数包}}
 
-二分查找算法的实现如下：
+在C++11新标准下可以利用~\alert{\texttt{std::forward}}~函数实现：
 
 \vspace{-4mm}
 
 \begin{columns}[t]
 
 \column{0.65\textwidth}
-\begin{blueblock}{\texttt{Array}成员函数\texttt{binarySearch}定义}
-\begin{lstlisting}[moreemph={Array,T,F}]
-template<typename T, size_t N>
-int Array<T, N>::binarySearch(const T &value, int left, int right) {
-    while (left <= right) {
-        int middle = (left + right) / 2;//计算中点位置
-        if (m_ele[middle] == value)
-            return middle;
-        else if (m_ele[middle] > value)
-            right = middle - 1;//修改right
-        else
-            left = middle + 1;//修改left
-    }
-    return -1; //查找失败
+\begin{blueblock}{\texttt{std::forward}转发左值描述性声明}
+\vspace{-2mm}\begin{lstlisting}[basicstyle=\scriptsize\ttfamily,moreemph={T}]
+template<typename T>
+T&& forward( typename std::remove_reference<T>::type& t );
+\end{lstlisting}\vspace{-2mm}
+\end{blueblock}
+\begin{blueblock}<2->{\texttt{forwardValue}函数定义二}
+\vspace{-2mm}\begin{lstlisting}[moreemph={T}]
+template<typename T>
+void forwardValue(T &&val) {
+    rvalue(std::forward<T>(val));
 }
-\end{lstlisting}
+\end{lstlisting}\vspace{-2mm}
+\end{blueblock}
+\begin{blueblock}<2->{\texttt{forwardValue}函数调用二}
+\vspace{-2mm}\begin{lstlisting}[moreemph={T}]
+forwardValue(42);       //正确
+int a = 42;
+forwardValue(a);        //正确
+\end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 
-
 \column{0.3\textwidth}
-\begin{yellowblock}{说明}
-$\bullet$ 如果\texttt{value}小于中点位置（\texttt{middle}）元素，则将\texttt{right}设为\texttt{middle-1}\\
-$\bullet$ 如果\texttt{value}大于中点位置元素，则将\texttt{left}设为\texttt{middle+1}\\
-$\bullet$ 如果查找失败则返回\texttt{-1}
+\begin{yellowblock}<3->{说明}
+$\bullet$ 当传入\texttt{forwardValue}的实参为右值，\texttt{T}被推断为非引用类型，forward<T>返回右值引用\\
+$\bullet$ 当传入\texttt{forwardValue}的实参为左值，\texttt{T}被推断为左值引用类型，此时\texttt{forward<T>}将返回左值引用
 \end{yellowblock}
 \vspace{-2mm}
-\begin{greenblock}<2->{问题}
-查找\texttt{4}返回时，\texttt{left}和\texttt{right}的值是多少？
-\end{greenblock}
-\vspace{-2mm}
-\begin{greenblock}<3->{答案}
-\texttt{left}为\texttt{2}，\texttt{right}为\texttt{1}
-\end{greenblock}
+\begin{redblock}<4->{注意}
+在C++11新标准下，\\
+\texttt{\&\& \&和\& \&\&}折叠为 \texttt{\&}
+\end{redblock}
 
 \end{columns}
 
