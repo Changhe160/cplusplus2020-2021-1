@@ -563,63 +563,32 @@ void Array<T, N>::bubbleSort(F f){
 \end{center}
 \end{frame}
 
-%\begin{frame}[fragile]{7.3.1 快速排序}
-%\begin{block}{快速排序的小技巧}
-%（1）若以数组的第一个元素为基准值，则应该先用right向左遍历，然后再用left向右遍历。\\
-%~\\
-%（2）若以数组的最后一个元素为基准值，则应该先用left向右遍历，然后再用right向左遍历。\\
-%~\\
-%（3）一般不建议用数组中间的元素做基准值，但也可以用。\\
-%~\\
-%\end{block}
-%
-%\end{frame}
-%\begin{frame}[fragile]{7.3.1 快速排序}
-%~\\
-%~\\
-%\begin{center}
-%\includegraphics[scale=0.3]{quick_sort_3.png}
-%\end{center}
-%\end{frame}
-%\begin{frame}[fragile]{7.3.1快速排序}
-%~\\
-%~\\
-%\begin{center}
-%\includegraphics[scale=0.3]{quick_sort_4.png}
-%\end{center}
-%\end{frame}
 
-\begin{frame}[fragile]{7.3.1 快速排序}
-~\\
-~\\
-\begin{center}
-\includegraphics[scale=0.3]{quick_sort_5.png}
-\end{center}
-\end{frame}
 %-----------------
 
 \begin{frame}[fragile]{7.3.1 排序算法\normalsize{~---~快速排序}}
-
+\vspace{-2mm}
 快速排序算法的实现如下：
-\vspace{-4mm}
-\begin{blueblock}{函数\texttt{quickSort}定义}
+\vspace{-1mm}
+\begin{blueblock}{}
+\vspace{-2mm}
 \begin{lstlisting}[moreemph={Array,T,F}]
 template<typename T, size_t N>
 template<typename F >
 void Array<T, N>::quickSort(int left, int right, F f) {
-	if (left < right){
-		int i = left, j = right;
-		T x = m_ele[left];
-		while (i < j){
-			while (i < j && f(x,m_ele[j])) j--;  // 从右向左找第一个小于x的数
-			if (i < j)	m_ele[i++] = m_ele[j];
-			while (i < j && f(m_ele[i],x))	i++; // 从左向右找第一个大于等于x的数
-			if (i < j)	m_ele[j--] = m_ele[i];
-		}
-		m_ele[i] = x;
-		quickSort(left, i - 1, f);             //左半部分排序
-		quickSort(i + 1, right, f);           //右半部分排序
-	}
+    if (left < right){
+        int i = left, j = right;
+        T x = m_ele[left];
+        while (i < j){
+            while (i < j && f(x,m_ele[j]))  j--;  // 从右向左找第一个小于x的数
+            if (i < j)     m_ele[i++] = m_ele[j];
+            while (i < j && f(m_ele[i],x))  i++; // 从左向右找第一个大于等于x的数
+            if (i < j)  m_ele[j--] = m_ele[i];
+        }
+        m_ele[i] = x;
+        quickSort(left, i - 1, f);             //左半部分排序
+        quickSort(i + 1, right, f);           //右半部分排序
+    }
 }
 \end{lstlisting}
 \end{blueblock}

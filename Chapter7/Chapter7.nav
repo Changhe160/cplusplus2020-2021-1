@@ -58,20 +58,18 @@
 \headcommand {\beamer@framepages {60}{60}}
 \headcommand {\slideentry {2}{1}{12}{61/61}{排序算法}{0}}
 \headcommand {\beamer@framepages {61}{61}}
-\headcommand {\slideentry {2}{1}{13}{62/62}{排序算法}{0}}
-\headcommand {\beamer@framepages {62}{62}}
-\headcommand {\beamer@subsectionpages {19}{62}}
-\headcommand {\beamer@subsectionentry {0}{2}{2}{63}{二分查找算法}}
-\headcommand {\slideentry {2}{2}{1}{63/77}{二分查找算法}{0}}
-\headcommand {\beamer@framepages {63}{77}}
-\headcommand {\slideentry {2}{2}{2}{78/80}{二分查找算法}{0}}
-\headcommand {\beamer@framepages {78}{80}}
-\headcommand {\slideentry {2}{2}{3}{81/81}{二分查找算法}{0}}
+\headcommand {\beamer@subsectionpages {19}{61}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{62}{二分查找算法}}
+\headcommand {\slideentry {2}{2}{1}{62/76}{二分查找算法}{0}}
+\headcommand {\beamer@framepages {62}{76}}
+\headcommand {\slideentry {2}{2}{2}{77/79}{二分查找算法}{0}}
+\headcommand {\beamer@framepages {77}{79}}
+\headcommand {\slideentry {2}{2}{3}{80/80}{二分查找算法}{0}}
+\headcommand {\beamer@framepages {80}{80}}
+\headcommand {\slideentry {2}{2}{4}{81/81}{二分查找算法}{0}}
 \headcommand {\beamer@framepages {81}{81}}
-\headcommand {\slideentry {2}{2}{4}{82/82}{二分查找算法}{0}}
-\headcommand {\beamer@framepages {82}{82}}
-\headcommand {\beamer@partpages {1}{82}}
-\headcommand {\beamer@subsectionpages {63}{82}}
-\headcommand {\beamer@sectionpages {19}{82}}
-\headcommand {\beamer@documentpages {82}}
-\headcommand {\gdef \inserttotalframenumber {28}}
+\headcommand {\beamer@partpages {1}{81}}
+\headcommand {\beamer@subsectionpages {62}{81}}
+\headcommand {\beamer@sectionpages {19}{81}}
+\headcommand {\beamer@documentpages {81}}
+\headcommand {\gdef \inserttotalframenumber {27}}

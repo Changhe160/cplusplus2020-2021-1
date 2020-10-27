@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 20.7) (preloaded format=xelatex 2020.10.24)  27 OCT 2020 16:04
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 20.7) (preloaded format=xelatex 2020.10.24)  27 OCT 2020 20:45
 entering extended mode
 **./Chapter7.tex
 (Chapter7.tex
@@ -1104,8 +1104,7 @@ Package fontspec Info: Font family 'MicrosoftYaHei(0)' created for font
 (fontspec)             YaHei/BI/OT:script=hani;language=dflt;"
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
-
-No file Chapter7.aux.
+ (Chapter7.aux)
 \openout1 = `Chapter7.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
@@ -1128,6 +1127,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
 LaTeX Font Info:    ... okay on input line 92.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 92.
 LaTeX Font Info:    ... okay on input line 92.
+
 ABD: EverySelectfont initializing macros
 LaTeX Info: Redefining \selectfont on input line 92.
 
@@ -1183,12 +1183,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 92.
 LaTeX Info: Redefining \pageref on input line 92.
 LaTeX Info: Redefining \nameref on input line 92.
+ (Chapter7.out) (Chapter7.out)
 \@outlinefile=\write5
 \openout5 = `Chapter7.out'.
-
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 92.
@@ -1341,14 +1338,13 @@ File: 影响开发效率因素.jpg Graphic file (type bmp)
 <影响开发效率因素.jpg>
 ) [4
 
-]
-No file Chapter7.toc.
-[5
+] (Chapter7.toc) [5
 
 ]
 \openout4 = `Chapter7.vrb'.
 
- (Chapter7.vrb) [6
+ (Chapter7.vrb)
+[6
 
 ] (s2.tex
 \openout4 = `Chapter7.vrb'.
@@ -2466,24 +2462,47 @@ File: quick_sort_7.png Graphic file (type bmp)
 ]
 \openout4 = `Chapter7.vrb'.
 
- (Chapter7.vrb
-File: quick_sort_5.png Graphic file (type bmp)
-<quick_sort_5.png>
-) [61
-
-]
-\openout4 = `Chapter7.vrb'.
-
  (Chapter7.vrb)
-Overfull \vbox (22.699pt too high) detected at line 627
+Overfull \vbox (4.27472pt too high) detected at line 596
  []
 
-[62
+[61
 
 ]
 \openout4 = `Chapter7.vrb'.
 
  (Chapter7.vrb
+File: binary_search_1.png Graphic file (type bmp)
+<binary_search_1.png>
+File: binary_search_2.png Graphic file (type bmp)
+<binary_search_2.png>
+File: binary_search_3.png Graphic file (type bmp)
+<binary_search_3.png>
+File: binary_search_4.png Graphic file (type bmp)
+<binary_search_4.png>
+File: binary_search_5.png Graphic file (type bmp)
+<binary_search_5.png>
+File: binary_search_6.png Graphic file (type bmp)
+<binary_search_6.png>
+File: binary_search_7.png Graphic file (type bmp)
+<binary_search_7.png>
+File: binary_search_8.png Graphic file (type bmp)
+<binary_search_8.png>
+File: binary_search_9.png Graphic file (type bmp)
+<binary_search_9.png>
+File: binary_search_10.png Graphic file (type bmp)
+<binary_search_10.png>
+File: binary_search_11.png Graphic file (type bmp)
+<binary_search_11.png>
+File: binary_search_12.png Graphic file (type bmp)
+<binary_search_12.png>
+File: binary_search_13.png Graphic file (type bmp)
+<binary_search_13.png>
+File: binary_search_14.png Graphic file (type bmp)
+<binary_search_14.png>
+) [62
+
+] (Chapter7.vrb
 File: binary_search_1.png Graphic file (type bmp)
 <binary_search_1.png>
 File: binary_search_2.png Graphic file (type bmp)
@@ -2793,7 +2812,8 @@ File: binary_search_14.png Graphic file (type bmp)
 <binary_search_14.png>
 ) [72
 
-] (Chapter7.vrb
+]
+(Chapter7.vrb
 File: binary_search_1.png Graphic file (type bmp)
 <binary_search_1.png>
 File: binary_search_2.png Graphic file (type bmp)
@@ -2824,8 +2844,7 @@ File: binary_search_14.png Graphic file (type bmp)
 <binary_search_14.png>
 ) [73
 
-]
-(Chapter7.vrb
+] (Chapter7.vrb
 File: binary_search_1.png Graphic file (type bmp)
 <binary_search_1.png>
 File: binary_search_2.png Graphic file (type bmp)
@@ -2916,67 +2935,36 @@ File: binary_search_13.png Graphic file (type bmp)
 <binary_search_13.png>
 File: binary_search_14.png Graphic file (type bmp)
 <binary_search_14.png>
-) [76
-
-] (Chapter7.vrb
-File: binary_search_1.png Graphic file (type bmp)
-<binary_search_1.png>
-File: binary_search_2.png Graphic file (type bmp)
-<binary_search_2.png>
-File: binary_search_3.png Graphic file (type bmp)
-<binary_search_3.png>
-File: binary_search_4.png Graphic file (type bmp)
-<binary_search_4.png>
-File: binary_search_5.png Graphic file (type bmp)
-<binary_search_5.png>
-File: binary_search_6.png Graphic file (type bmp)
-<binary_search_6.png>
-File: binary_search_7.png Graphic file (type bmp)
-<binary_search_7.png>
-File: binary_search_8.png Graphic file (type bmp)
-<binary_search_8.png>
-File: binary_search_9.png Graphic file (type bmp)
-<binary_search_9.png>
-File: binary_search_10.png Graphic file (type bmp)
-<binary_search_10.png>
-File: binary_search_11.png Graphic file (type bmp)
-<binary_search_11.png>
-File: binary_search_12.png Graphic file (type bmp)
-<binary_search_12.png>
-File: binary_search_13.png Graphic file (type bmp)
-<binary_search_13.png>
-File: binary_search_14.png Graphic file (type bmp)
-<binary_search_14.png>
 )
-[77
+[76
 
 ]
 \openout4 = `Chapter7.vrb'.
 
  (Chapter7.vrb)
-Overfull \vbox (9.49799pt too high) detected at line 706
+Overfull \vbox (9.49799pt too high) detected at line 675
+ []
+
+[77
+
+] (Chapter7.vrb)
+Overfull \vbox (9.49799pt too high) detected at line 675
  []
 
 [78
 
 ] (Chapter7.vrb)
-Overfull \vbox (9.49799pt too high) detected at line 706
+Overfull \vbox (9.49799pt too high) detected at line 675
  []
 
 [79
 
-] (Chapter7.vrb)
-Overfull \vbox (9.49799pt too high) detected at line 706
- []
-
-[80
-
 ]
 \openout4 = `Chapter7.vrb'.
 
- (Chapter7.vrb) [81
+ (Chapter7.vrb) [80
 
-]) [82
+]) [81
 
 ]
 \tf@nav=\write6
@@ -2993,26 +2981,16 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 179.
  (Chapter7.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 179.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 179.
-
-
-Package rerunfilecheck Warning: File `Chapter7.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Chapter7.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  7764395DC492DF72DBF1D94ADD21A886;663.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+Package rerunfilecheck Info: File `Chapter7.out' has not changed.
+(rerunfilecheck)             Checksum: 041B7521ACDA0FC9AD4A5DC8EFE64F1E;663.
  ) 
 Here is how much of TeX's memory you used:
- 32475 strings out of 414448
- 678539 string characters out of 2905421
- 1178395 words of memory out of 3000000
- 48933 multiletter control sequences out of 15000+200000
+ 32503 strings out of 414448
+ 679839 string characters out of 2905421
+ 1165395 words of memory out of 3000000
+ 48956 multiletter control sequences out of 15000+200000
  539149 words of font info for 85 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 81i,11n,74p,808b,1791s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 81i,11n,74p,808b,1792s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Chapter7.pdf (82 pages).
+Output written on Chapter7.pdf (81 pages).
