@@ -633,15 +633,56 @@ foo(1,1.5,"C++"); // 输出：3
 $\bullet$ 可变数目的参数称为\alert{参数包}，用省略号“\alert{\texttt{...}}”表示，可包含0到任意个模板参数\\
 $\bullet$ \texttt{foo}函数的形参\texttt{args}为模板参数包类型，接受可变数目的实参
 \end{yellowblock}
+\end{columns}
+\end{frame}
+
+%-----------------
+
+\begin{frame}[fragile]{7.1.5~可变参函数模板\normalsize{~---~包展开}}
+
+可以通过\alert{递归}的方式展开函数模板参数包：
+
+\vspace{-4mm}
+
+\begin{columns}[t]
+
+\column{0.65\textwidth}
+\begin{blueblock}{\texttt{print}函数定义}
+\vspace{-2mm}\begin{lstlisting}[moreemph={T}]
+template<typename T, typename... Args>
+ostream& print(ostream &os, const T &t, const Args&... rest) {
+    os << t << " "; // 打印第一个参数
+    return print(os, rest...); // 递归调用
+}
+
+template<typename T>
+ostream& print(ostream &os, const T &t) {
+    return os << t; // 打印最后一个参数
+}
+\end{lstlisting}\vspace{-2mm}
+\end{blueblock}
+\begin{blueblock}<2->{\texttt{print}函数调用}
+\vspace{-1.5mm}\begin{lstlisting}[moreemph={T}]
+print(cout,1, 2.5, "C++") << endl; // 输出1 2.5 C++
+\end{lstlisting}\vspace{-1.5mm}
+\end{blueblock}
+
+\column{0.3\textwidth}
+\begin{yellowblock}{说明}
+$\bullet$ 第一次处理参数包中的第一个参数，然后用剩余参数调用自身\\
+$\bullet$ 当参数包里面只剩下一个参数时，非可变参模板与可变参模板都匹配，但是非可变参模板更特例化，编译器首选非可变参数版本
+\end{yellowblock}
 
 \end{columns}
 
 \end{frame}
 
+%-----------------
+
 \begin{frame}[fragile]{7.1.5~可变参函数模板\normalsize{~---~转发参数包}}
 \begin{block}{在泛型编程中，常常需要将参数原封不动的转发给另外一个函数}
 \begin{tikzpicture}[overlay]
-\visible<2->{\draw[color=red!70,->,line width=1.5pt] (6.5,-2) -- node [color=red!70,pos=0.45,above,sloped]{改进效率}(8,-2);} 
+\visible<2->{\draw[color=red!70,->,line width=1.5pt] (6.5,-2) -- node [color=red!70,pos=0.45,above,sloped]{改进效率}(8,-2);}
 \end{tikzpicture}
 \begin{columns}
 \column{0.4\textwidth}
@@ -670,7 +711,7 @@ TYPE* get_instance(const ARG &arg){
 \end{block}
 
 \begin{greenblock}<3->{问题}
-如果参数类型是右值，如何处理？
+如果形参类型是右值，如何处理？
 \end{greenblock}
 \end{frame}
 \begin{frame}[fragile]{7.1.5~可变参函数模板\normalsize{~---~转发参数包}}
@@ -735,19 +776,19 @@ T&& forward( typename std::remove_reference<T>::type& t );
 \end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 \begin{blueblock}<2->{\texttt{forwardValue}函数定义二}
-\vspace{-2mm}\begin{lstlisting}[moreemph={T}]
+\begin{lstlisting}[moreemph={T}]
 template<typename T>
 void forwardValue(T &&val) {
     rvalue(std::forward<T>(val));
 }
-\end{lstlisting}\vspace{-2mm}
+\end{lstlisting}
 \end{blueblock}
 \begin{blueblock}<2->{\texttt{forwardValue}函数调用二}
-\vspace{-2mm}\begin{lstlisting}[moreemph={T}]
+\begin{lstlisting}[moreemph={T}]
 forwardValue(42);       //正确
 int a = 42;
 forwardValue(a);        //正确
-\end{lstlisting}\vspace{-2mm}
+\end{lstlisting}
 \end{blueblock}
 
 \column{0.3\textwidth}
@@ -766,4 +807,3 @@ $\bullet$ 当传入\texttt{forwardValue}的实参为左值，\texttt{T}被推断
 \end{frame}
 
 
- 

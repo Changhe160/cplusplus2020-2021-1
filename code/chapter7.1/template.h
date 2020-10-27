@@ -98,4 +98,9 @@ void fun(Args&&... args) {
 void foo(const string &s, int &&i) {
 	cout << s << i << endl;
 }
+
+template <typename... Args>
+void expand(Args... args) {
+	std::initializer_list<int>{([&] {cout << args << endl; }(), 0)...};
+}
 #endif

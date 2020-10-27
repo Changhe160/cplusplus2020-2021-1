@@ -31,6 +31,10 @@ public:
 
 	int binarySearch(const T &, int left = 0, int right = N - 1);
 
+
+	template<typename F = Less<T> >
+	void quickSort(int left, int right, F f = F());
+
 private:
 	void swap(int i, int j){
 		T t = m_ele[i];
@@ -101,6 +105,29 @@ void  Array<T, N>::bubbleSort(F f){
 				swap(j, j + 1);
 		}
 	}
+}
+
+template<typename T, size_t N>
+template<typename F >
+void Array<T, N>::quickSort(int left, int right,F f) {
+	if (left < right){
+		int i = left, j = right;
+		T x = m_ele[left];
+		while (i < j)		{
+			while (i < j && f(x,m_ele[j]))		// 从右向左找第一个小于x的数
+				j--;
+			if (i < j)
+				m_ele[i++] = m_ele[j];
+			while (i < j && f(m_ele[i],x))		// 从左向右找第一个大于等于x的数
+				i++;
+			if (i < j)
+				m_ele[j--] = m_ele[i];
+		}
+		m_ele[i] = x;
+		quickSort(left, i - 1,f); // 递归调用
+		quickSort(i + 1, right,f);
+	}
+
 }
 
 // 7.3.2 节

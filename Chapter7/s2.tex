@@ -88,6 +88,7 @@ $\bullet$ 紧随类名后面的参数列表代表一个实例化的实参列表�
 
 \column{0.65\textwidth}
 \begin{blueblock}{\texttt{Array}类模板~构造函数~类外定义}
+\vspace{-2mm}
 \begin{lstlisting}[moreemph={T,Array,initializer}]
 template<typename T, size_t N>
 Array<T, N>::Array(const std::initializer_list<T> &l):m_ele{T()}{
@@ -99,6 +100,7 @@ Array<T, N>::Array(const std::initializer_list<T> &l):m_ele{T()}{
 \end{lstlisting}
 \end{blueblock}
 \begin{blueblock}<2->{\texttt{Array}类模板~\texttt{[]}运算符函数~类外定义}
+\vspace{-2mm}
 \begin{lstlisting}[moreemph={T,Array}]
 template<typename T, size_t N>
 T& Array<T, N>::operator[](size_t i) {
@@ -109,8 +111,8 @@ T& Array<T, N>::operator[](size_t i) {
 
 \column{0.3\textwidth}
 \begin{yellowblock}{说明}
-$\bullet$ \texttt{m\_ele}中的每一个元素用T类型的默认初始化方式（\texttt{T()}）初始化\\
-$\bullet$ 将形参\texttt{l}中的元素依次复制到类模板数组成员\texttt{m\_ele}中相应的位置\\
+$\bullet$ \texttt{m\_ele}中的每一个元素用T类型的默认初始化方式初始化\\
+$\bullet$ 将形参\texttt{l}中的元素依次复制\\
 $\bullet$ \texttt{l.begin}返回列表\texttt{l}中第一个元素的迭代器
 \end{yellowblock}
 \begin{yellowblock}<2->{说明}
@@ -214,7 +216,7 @@ $\bullet$ \texttt{a[0]}的类型为\texttt{int}，字符\texttt{'A'}转换为\te
 
 \begin{frame}[fragile]{7.2.3~默认模板参数}
 
-和\alert{类模板参数}一样，\alert{函数模板参数}也可以有默认值：
+为\alert{函数模板参数}提供默认值：
 
 \vspace{-4mm}
 
@@ -222,25 +224,25 @@ $\bullet$ \texttt{a[0]}的类型为\texttt{int}，字符\texttt{'A'}转换为\te
 
 \column{0.65\textwidth}
 \begin{blueblock}{\texttt{Array}类模板定义三}
-\vspace{-1mm}\begin{lstlisting}[moreemph={Array,T,Less,F}]
-template<typename T, size_t N>
+\vspace{-2mm}\begin{lstlisting}[moreemph={Array,T,Less,F}]
+template<typename T, size_t N = 10>
 class Array {
     // 其它成员保持不变
 public:
     template<typename F = Less<T>>
     void sort(F f = F());
 };
-\end{lstlisting}\vspace{-1mm}
+\end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 \begin{blueblock}<2->{\texttt{Less}类模板定义}
-\vspace{-1mm}\begin{lstlisting}[moreemph={Less,T}]
+\vspace{-2mm}\begin{lstlisting}[moreemph={Less,T}]
 template<typename T>
 struct Less{
     bool operator()(const T &a, const T &b) {
         return a < b;
     }
 };
-\end{lstlisting}\vspace{-1mm}
+\end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 
 \column{0.3\textwidth}
@@ -305,10 +307,9 @@ $\bullet$ \texttt{sort}的\alert{函数参数}~\texttt{f}也有默认值，即\t
 
 \begin{frame}[fragile]{7.3.1~排序算法}
 
-排序是数据处理的最基本任务，目的是按照某种规则将一组无序数据重新排列，使之有序。下面将给\texttt{Array}模板类增加三种最常用的排序算法：选择排序、插入排序和冒泡排序
+排序是数据处理的最基本任务，目的是按照某种规则将一组无序数据重新排列，使之有序。
 
 \vspace{-4mm}
-
 \begin{columns}[t]
 
 \column{0.65\textwidth}
@@ -317,14 +318,13 @@ $\bullet$ \texttt{sort}的\alert{函数参数}~\texttt{f}也有默认值，即\t
 \begin{lstlisting}[moreemph={Array,T}]
 template<typename T, size_t N>
 class Array {
-    //其它成员保持不变
 public:
     template<typename F = Less<T> >
-    void selectionSort(F f = F()); //选择排序
+    void selectionSort(F f = F());      //选择排序
     template<typename F = Less<T> >
-    void insertionSort(F f = F()); //插入排序
+    void insertionSort(F f = F());      //插入排序
     template<typename F = Less<T> >
-    void bubbleSort(F f = F()); //冒泡排序
+    void bubbleSort(F f = F());         //冒泡排序
 private:
     void swap(int i, int j){
         T t = m_ele[i];
@@ -333,7 +333,7 @@ private:
     }
 };
 \end{lstlisting}
-\vspace{-3mm}
+\vspace{-1mm}
 \end{blueblock}
 
 \column{0.3\textwidth}
@@ -362,7 +362,7 @@ private:
 \uncover<6->{\includegraphics[width=0.8\textwidth]{selection_sort_6}}\\\vspace{-11mm}
 \uncover<7->{\includegraphics[width=0.8\textwidth]{selection_sort_7}}\\
 \uncover<8->{\includegraphics[width=0.8\textwidth]{selection_sort_8}}\\\vspace{-11mm}
-\uncover<9->{\includegraphics[width=0.8\textwidth]{selection_sort_9}}\\\vspace{3mm}
+\uncover<9->{\includegraphics[width=0.8\textwidth]{selection_sort_9}}\\
 \uncover<10->{\includegraphics[width=0.8\textwidth]{selection_sort_10}}
 \end{center}
 
@@ -385,12 +385,12 @@ template<typename T, size_t N>
 template<typename F >
 void Array<T, N>::selectionSort(F f) {
     for (int i = 0; i < N - 1; ++i){
-        int min = i; // 记录待排序数据中最小元素位置
+        int min = i;        // 记录待排序数据中最小元素位置
         for (int j = i + 1; j < N; ++j) {
             if (f(m_ele[j], m_ele[min]))
-                min = j; //更新最小元素位置
+                min = j;    //更新最小元素位置
         }
-        swap(i, min); //把最小元素放到位置i
+        swap(i, min);       //把最小元素放到位置i
     }
 }
 \end{lstlisting}
@@ -424,8 +424,8 @@ void Array<T, N>::selectionSort(F f) {
 \uncover<8->{\includegraphics[width=0.8\textwidth]{insertion_sort_8}}\\
 \uncover<9->{\includegraphics[width=0.8\textwidth]{insertion_sort_9}}\\\vspace{-10.9mm}
 \uncover<10->{\includegraphics[width=0.8\textwidth]{insertion_sort_10}}\\\vspace{-10.9mm}
-\uncover<11->{\includegraphics[width=0.8\textwidth]{insertion_sort_11}}\\\vspace{3mm}
-\uncover<12->{\includegraphics[width=0.8\textwidth]{insertion_sort_12}}\\\vspace{-10.9mm}
+\uncover<11->{\includegraphics[width=0.8\textwidth]{insertion_sort_11}}\\\vspace{1mm}
+\uncover<12->{\includegraphics[width=0.8\textwidth]{insertion_sort_12}}\\\vspace{-10.8mm}
 \uncover<13->{\includegraphics[width=0.8\textwidth]{insertion_sort_13}}
 \end{center}
 
@@ -448,13 +448,13 @@ template<typename T, size_t N>
 template<typename F >
 void Array<T, N>::insertionSort(F f) {
     for (int i = 1, j; i < N; ++i) {
-        T t = m_ele[i]; //待插入元素
-        for (j = i; j > 0; --j) { //查找插入位置
+        T t = m_ele[i];                 //待插入元素
+        for (j = i; j > 0; --j) {       //查找插入位置
             if (f(m_ele[j - 1], t))
                 break;
-            m_ele[j] = m_ele[j - 1]; //逐个向后移动元素
+            m_ele[j] = m_ele[j - 1];    //逐个向后移动元素
         }
-        m_ele[j] = t; //将待插入元素放到正确位置
+        m_ele[j] = t;                   //将待插入元素放到正确位置
     }
 }
 \end{lstlisting}
@@ -482,7 +482,7 @@ void Array<T, N>::insertionSort(F f) {
 \uncover<5->{\includegraphics[width=0.8\textwidth]{bubble_sort_5}}\\
 \uncover<6->{\includegraphics[width=0.8\textwidth]{bubble_sort_6}}\\\vspace{-10.9mm}
 \uncover<7->{\includegraphics[width=0.8\textwidth]{bubble_sort_7}}\\
-\uncover<8->{\includegraphics[width=0.8\textwidth]{bubble_sort_8}}\\\vspace{3mm}
+\uncover<8->{\includegraphics[width=0.8\textwidth]{bubble_sort_8}}\\\vspace{1mm}
 \uncover<9->{\includegraphics[width=0.8\textwidth]{bubble_sort_9}}
 \end{center}
 
@@ -596,7 +596,35 @@ void Array<T, N>::bubbleSort(F f){
 \includegraphics[scale=0.3]{quick_sort_5.png}
 \end{center}
 \end{frame}
+%-----------------
 
+\begin{frame}[fragile]{7.3.1 排序算法\normalsize{~---~快速排序}}
+
+快速排序算法的实现如下：
+\vspace{-4mm}
+\begin{blueblock}{函数\texttt{quickSort}定义}
+\begin{lstlisting}[moreemph={Array,T,F}]
+template<typename T, size_t N>
+template<typename F >
+void Array<T, N>::quickSort(int left, int right, F f) {
+	if (left < right){
+		int i = left, j = right;
+		T x = m_ele[left];
+		while (i < j){
+			while (i < j && f(x,m_ele[j])) j--;  // 从右向左找第一个小于x的数
+			if (i < j)	m_ele[i++] = m_ele[j];
+			while (i < j && f(m_ele[i],x))	i++; // 从左向右找第一个大于等于x的数
+			if (i < j)	m_ele[j--] = m_ele[i];
+		}
+		m_ele[i] = x;
+		quickSort(left, i - 1, f);             //左半部分排序
+		quickSort(i + 1, right, f);           //右半部分排序
+	}
+}
+\end{lstlisting}
+\end{blueblock}
+
+\end{frame}
 %-------------------------------------
 \subsection{二分查找算法}
 %-------------------------------------
@@ -611,9 +639,9 @@ void Array<T, N>::bubbleSort(F f){
 
 \begin{center}
 \uncover<2->{\includegraphics[width=0.8\textwidth]{binary_search_1}}\\\vspace{3mm}
-\uncover<3->{\includegraphics[width=0.8\textwidth]{binary_search_2}}\\\vspace{-10.2mm}
-\uncover<4->{\includegraphics[width=0.8\textwidth]{binary_search_3}}\\\vspace{-10.2mm}
-\uncover<5->{\includegraphics[width=0.8\textwidth]{binary_search_4}}\\\vspace{-10.2mm}
+\uncover<3->{\includegraphics[width=0.8\textwidth]{binary_search_2}}\\\vspace{-10.1mm}
+\uncover<4->{\includegraphics[width=0.8\textwidth]{binary_search_3}}\\\vspace{-10.1mm}
+\uncover<5->{\includegraphics[width=0.8\textwidth]{binary_search_4}}\\\vspace{-10.1mm}
 \uncover<6->{\includegraphics[width=0.8\textwidth]{binary_search_5}}\\\vspace{-10.mm}
 \uncover<7->{\includegraphics[width=0.8\textwidth]{binary_search_6}}\\\vspace{12mm}
 \uncover<8->{\includegraphics[width=0.8\textwidth]{binary_search_7}}\\\vspace{3mm}
@@ -644,15 +672,15 @@ void Array<T, N>::bubbleSort(F f){
 template<typename T, size_t N>
 int Array<T, N>::binarySearch(const T &value, int left, int right) {
     while (left <= right) {
-        int middle = (left + right) / 2;//计算中点位置
+        int middle = (left + right) / 2;    //计算中点位置
         if (m_ele[middle] == value)
             return middle;
         else if (m_ele[middle] > value)
-            right = middle - 1;//修改right
+            right = middle - 1;             //修改right
         else
-            left = middle + 1;//修改left
+            left = middle + 1;              //修改left
     }
-    return -1; //查找失败
+    return -1;                              //查找失败
 }
 \end{lstlisting}
 \end{blueblock}
@@ -660,9 +688,9 @@ int Array<T, N>::binarySearch(const T &value, int left, int right) {
 
 \column{0.3\textwidth}
 \begin{yellowblock}{说明}
-$\bullet$ 如果\texttt{value}小于中点位置（\texttt{middle}）元素，则将\texttt{right}设为\texttt{middle-1}\\
-$\bullet$ 如果\texttt{value}大于中点位置元素，则将\texttt{left}设为\texttt{middle+1}\\
-$\bullet$ 如果查找失败则返回\texttt{-1}
+$\bullet$ \texttt{value}小于中点位置元素，将\texttt{right}设为\texttt{middle-1}\\
+$\bullet$ \texttt{value}大于中点位置元素，将\texttt{left}设为\texttt{middle+1}\\
+$\bullet$ 查找失败则返回\texttt{-1}
 \end{yellowblock}
 \vspace{-2mm}
 \begin{greenblock}<2->{问题}
@@ -674,5 +702,15 @@ $\bullet$ 如果查找失败则返回\texttt{-1}
 \end{greenblock}
 
 \end{columns}
+
+\end{frame}
+
+%-----------------
+
+\begin{frame}[fragile]{7.3.2~改进插入排序算法效率}
+
+\begin{greenblock}{问题}
+如何改进插入排序算法的效率？
+\end{greenblock}
 
 \end{frame}
