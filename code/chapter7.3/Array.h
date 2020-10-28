@@ -127,7 +127,6 @@ void Array<T, N>::quickSort(int left, int right,F f) {
 		quickSort(left, i - 1,f); // µÝ¹éµ÷ÓÃ
 		quickSort(i + 1, right,f);
 	}
-
 }
 
 // 7.3.2 ½Ú

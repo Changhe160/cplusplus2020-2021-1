@@ -537,30 +537,22 @@ void Array<T, N>::bubbleSort(F f){
 \end{frame}
 
 \begin{frame}[fragile]{7.3.1 快速排序}
+快速排序过程
 
-\begin{block}{快速排序的流程}
-（1）left、right指针（索引）分别指向待排数组的首、尾。\\
-（2）left 指针向后遍历，right指针向前遍历。\\
-（3）当right指针指向元素小于基准值（key）时，right指针元素便赋值给left指针元素，完成转移。\\
-（4）当left指针指向元素大于基准值（key）时，left指针元素便赋值给right指针元素，完成转移。\\
-（5）最终当left=right时，遍历结束。\\
-（6）以基准值（key）为界限，把数组分成两部分，分别对这两部分进行快速排序(显然这是一个递归的过程)\\
-\end{block}
+\vspace{1mm}
 
-\end{frame}
-\begin{frame}[fragile]{7.3.1 快速排序}
 \begin{center}
- \includegraphics[scale=0.38]{quick_sort_1.png}\\
-\includegraphics[scale=0.38]{quick_sort_2.png}
+\includegraphics[width=0.85\textwidth]{quick_sort1}\\
+\uncover<2->{\includegraphics[width=0.85\textwidth]{quick_sort2}}\\
+\uncover<3->{\includegraphics[width=0.85\textwidth]{quick_sort3}}\\\vspace{-10mm}
+\uncover<4->{\includegraphics[width=0.85\textwidth]{quick_sort4}}\\
+\uncover<5->{\includegraphics[width=0.85\textwidth]{quick_sort5}}\\\vspace{-10mm}
+\uncover<6->{\includegraphics[width=0.85\textwidth]{quick_sort6}}\\
+\uncover<7->{\includegraphics[width=0.85\textwidth]{quick_sort7}}\\
+\uncover<8->{\includegraphics[width=0.85\textwidth]{quick_sort8}}\\\vspace{-10mm}
+\uncover<9->{\includegraphics[width=0.85\textwidth]{quick_sort9}}\\
 \end{center}
-\end{frame}
-\begin{frame}[fragile]{7.3.1快速排序}
-\begin{block}{快速排序的举例续}
-\end{block}
-\begin{center}
-\includegraphics[scale=0.38]{quick_sort_6.png}
-\includegraphics[scale=0.38]{quick_sort_7.png}
-\end{center}
+
 \end{frame}
 
 
@@ -580,14 +572,14 @@ void Array<T, N>::quickSort(int left, int right, F f) {
         int i = left, j = right;
         T x = m_ele[left];
         while (i < j){
-            while (i < j && f(x,m_ele[j]))  j--;  // 从右向左找第一个小于x的数
+            while (i < j && f(x,m_ele[j]))  j--;    //从右向左找第一个小于x的数
             if (i < j)     m_ele[i++] = m_ele[j];
-            while (i < j && f(m_ele[i],x))  i++; // 从左向右找第一个大于等于x的数
+            while (i < j && f(m_ele[i],x))  i++;    //从左向右找第一个大于等于x的数
             if (i < j)  m_ele[j--] = m_ele[i];
         }
         m_ele[i] = x;
-        quickSort(left, i - 1, f);             //左半部分排序
-        quickSort(i + 1, right, f);           //右半部分排序
+        quickSort(left, i - 1, f);                  //左半部分排序
+        quickSort(i + 1, right, f);                 //右半部分排序
     }
 }
 \end{lstlisting}
@@ -598,7 +590,6 @@ void Array<T, N>::quickSort(int left, int right, F f) {
 \subsection{二分查找算法}
 %-------------------------------------
 
-%-----------------
 
 \begin{frame}[fragile]{7.3.2~二分查找算法}
 
