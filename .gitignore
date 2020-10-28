@@ -531,10 +531,4 @@ TSWLatexianTemp*
 *.lpz
 
 *Debug
-./Chapter7/*.aux
-Chapter7/*.log
-Chapter7/*.nav
-Chapter7/*.out
-Chapter7/*.synctex
-Chapter7/*.toc
-Chapter7/*.vrb
+
