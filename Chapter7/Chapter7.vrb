@@ -1,6 +1,31 @@
-\frametitle{7.3.2~改进插入排序算法效率}
+\frametitle{7.2.3~默认模板参数}
 
-\begin{greenblock}{问题}
-如何改进插入排序算法的效率？
+和\alert{类模板参数}一样，\alert{函数模板参数}也可以有默认值：
+
+\vspace{-4mm}
+
+\begin{columns}[t]
+
+\column{0.65\textwidth}
+\begin{blueblock}{\texttt{Array}类模板定义三}
+\vspace{-1mm}\begin{lstlisting}[moreemph={Array,T,Less,F}]
+template<typename T, size_t N = 10>
+class Array {
+    // 其它成员保持不变
+public:
+    template<typename F = Less<T>>
+    void sort(F f = F());
+};
+\end{lstlisting}\vspace{-1mm}
+\end{blueblock}
+
+\column{0.3\textwidth}
+\begin{yellowblock}{说明}
+$\bullet$ \texttt{sort}的\alert{函数参数}~\texttt{f}也有默认值，即\texttt{F}类的一个函数对象，代表默认比较方式为\texttt{Less}
+\end{yellowblock}
+\begin{greenblock}<2->{问题}
+理清~\alert{函数参数}和\alert{模板参数}的概念
 \end{greenblock}
+
+\end{columns}
 
