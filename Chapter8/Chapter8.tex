@@ -446,7 +446,7 @@ void foo(int i) {
 智能指针的使用和普通指针类似，解引用时返回其指向的对象：
 \vspace{-1.5mm}\begin{lstlisting}[moreemph={unique\_ptr}]
 unique_ptr<string> p1(new string("Mandy"));
-if(p1 && p1->empty())       // 指针p1非空且其指向非空string
+if(p1 && p1->empty())       // 指针p1非空且其指向空string
     *p1 = "Lisha";          // *p1为解引用
 \end{lstlisting}\vspace{-1.5mm}
 \end{blueblock}
