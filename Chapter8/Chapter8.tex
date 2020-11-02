@@ -113,7 +113,7 @@
 \end{greenblock}
 
 \begin{greenblock}<2->{答案}
-本章介绍的\alert{动态内存分配}技术的提出就是了为了解决这个问题
+本章介绍的\alert{动态内存分配}技术的提出就是了为了解决这个问题。支持内存管理使得C/C++语言有了出色的性能。
 \end{greenblock}
 
 \end{frame}
@@ -155,7 +155,7 @@
 
 %-----------------
 
-\begin{frame}[fragile]{8.1~动态内存}
+\begin{frame}[fragile]{动态内存}
 
 下面两组示例代码中定义的对象的存储类型和生命周期有什么区别？
 
@@ -332,13 +332,21 @@ delete p2; // 错误：p2指向的动态内存已经被释放
 
 \column{0.65\textwidth}
 \begin{blueblock}<2->{重置空悬指针}
+\begin{tikzpicture}[overlay]  
+   \node<2>[rectangle,draw=red, text=red ] (a1) at(8,-0.5){0x124A6854};
+   \node[text=red] at (6.5,-0.5) {p};
+   \draw<2>[thick,red,->] (-0.2,-0.5)--(0.0,-0.5);
+   \node<3>[rectangle,draw=red, text=red ] (a2) at(8,-0.5){0x00000123};
+   \draw<3>[thick,red,->] (-0.2,-0.9)--(0,-0.9);
+   \node<4>[rectangle,draw=red, text=red ] (a2) at(8,-0.5){0x00000000};
+   \draw<4>[thick,red,->] (-0.2,-1.3)--(0,-1.3);
+\end{tikzpicture}
 \begin{lstlisting}[moreemph={}]
 int *p = new int;
 delete p;
 p = nullptr; //p 不再指向任何对象
 \end{lstlisting}
 \end{blueblock}
-
 \column{0.3\textwidth}
 \begin{yellowblock}<2->{说明}
 空悬指针的危害类似于未初始化的野指针，应重置该指针为\texttt{nullptr}
@@ -353,7 +361,7 @@ p = nullptr; //p 不再指向任何对象
 \begin{frame}[fragile]{8.1.2~释放动态内存}
 
 \begin{block}{内存泄漏}
-在使用动态对象的过程中，由于疏忽或错误造成无法释放已经不再使用的内存的情况称为内存泄漏
+在使用动态对象的过程中，由于疏忽或错误造成\alert{无法释放已经不再使用的内存}的情况称为内存泄漏
 \end{block}
 
 \vspace{-4mm}
@@ -364,14 +372,14 @@ p = nullptr; //p 不再指向任何对象
 \begin{blueblock}<2->{内存泄漏示例一}
 \vspace{-2mm}\begin{lstlisting}[moreemph={}]
 int i, *q = new int(2);
-q = &i;   // 错误：发生内存泄漏
+q = &i;             // 错误：发生内存泄漏
 \end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 \vspace{-1mm}
 \begin{blueblock}<3->{内存泄漏示例二}
 \vspace{-2.5mm}\begin{lstlisting}[moreemph={}]
-foo(614); //正确：无内存泄漏
-foo(105); //错误：发生内存泄漏
+foo(614);           //正确：无内存泄漏
+foo(105);           //错误：发生内存泄漏
 \end{lstlisting}\vspace{-2.5mm}
 \end{blueblock}
 \vspace{-3mm}
@@ -413,8 +421,8 @@ void foo(int i) {
 \uncover<3->{
 新标准在\texttt{memory}头文件中定义了三种不同类型的智能指针：
 \begin{enumerate}
-  \item \texttt{unique\_ptr}独占所指向的对象
-  \item \texttt{shared\_ptr}允许多个指针指向一个对象
+  \item \texttt{unique\_ptr}独占所指向的对象资源，例如个人信息
+  \item \texttt{shared\_ptr}允许多个指针指向一个对象，即共享资源，例如后台系统数据
   \item \texttt{weak\_ptr}是一种不控制所指对象生命期的智能指针，指向\texttt{shared\_ptr}所管理的对象
 \end{enumerate}}
 \end{block}
@@ -461,8 +469,7 @@ $\bullet$make\_unique模板参数为指针指向的类型，实参为类型构�
 %-----------------
 
 \begin{frame}[fragile]{8.1.3~智能指针\normalsize{~---~\texttt{unique\_ptr}}}
-\texttt{unique\_ptr}~\alert{独自}拥有所指向的动态对象，也就是说只能有一个\texttt{unique\_ptr}指向给定
-的对象：
+\texttt{unique\_ptr}~\alert{独自}拥有所指向的动态对象，也就是说只能有一个\texttt{unique\_ptr}指向给定的对象：
 \vspace{-4mm}
 \begin{columns}[t]
 \column{0.65\textwidth}
@@ -571,12 +578,10 @@ auto pi = make_shared<int>(10);
 
 \begin{frame}[fragile]{8.1.3~智能指针\normalsize{~---~\texttt{shared\_ptr}}}
 
-与\texttt{unique\_ptr}不同，\texttt{shared\_ptr}允许复制或赋值：
+与\texttt{unique\_ptr}不同，\texttt{shared\_ptr}允许复制和赋值：
 
 \vspace{-4mm}
-
 \begin{columns}[t]
-
 \column{0.65\textwidth}
 \begin{blueblock}<2->{\texttt{shared\_ptr}对象调用成员函数\texttt{use\_count}一}
 \vspace{-1.5mm}\begin{lstlisting}[moreemph={shared\_ptr}]
@@ -652,7 +657,7 @@ cout << *p;
 
 \column{0.3\textwidth}
 \begin{yellowblock}<4->{说明}
-如果对象存在，\texttt{lock}函数则返回一个可用的\texttt{shared\_ptr}，否则返
+如果对象存在，\texttt{lock}函数则返回可用的\texttt{shared\_ptr}，否则返
 回一个存储\texttt{nullptr}的\texttt{shared\_ptr}
 \end{yellowblock}
 
@@ -809,7 +814,7 @@ public:
     MyStr(const char *val=nullptr); // 默认构造函数
     ~MyStr() { delete[] m_buff; }
     int size() { return m_length; };
-                
+
     friend ostream& operator<<(ostream&, const MyStr&);
     friend MyStr operator+(const MyStr&, const MyStr&);
 };
@@ -907,7 +912,7 @@ MyStr operator+(const MyStr &s1, const MyStr &s2){
 \begin{yellowblock}{说明}
 $\bullet$~在输出运算符\texttt{<<}函数体内，动态字符数组中的字符逐个写入到输出流对象\texttt{os}中，并返回~\alert{\texttt{os}的引用}\\
 $\bullet$~重载的\texttt{MyStr}类运算符\texttt{+}，将两个形参\texttt{MyStr}类对象中的字符连接起来，形成一个新的\texttt{MyStr}类对象\texttt{res}，并以值的形式返回~\alert{\texttt{res}的副本}
-$\bullet$~ 
+$\bullet$~
 \end{yellowblock}
 
 \end{columns}
@@ -929,7 +934,7 @@ $\bullet$~
     MyStr s1("dynamic "), s2("memory");
     cout << s1 << s2 << endl;
     cout << s1 + s2 << endl;
-    
+
 }
 \end{lstlisting}
 \end{blueblock}
@@ -957,7 +962,7 @@ $\bullet$~
 {
     MyStr s1("dynamic"), s2(s1), s3;
     s3 = s1;
-} 
+}
 \end{lstlisting}
 \begin{tikzpicture}[overlay]
   \visible<3->{
@@ -977,9 +982,9 @@ $\bullet$~
 MyStr::MyStr(const MyStr &rhs):
         m_length(rhs.m_length), m_buff(rhs.m_buff){ }
 MyStr& MyStr::operator=(const MyStr &rhs){
-    if (this != &rhs){ 
+    if (this != &rhs){
         m_length = rhs.m_length;
-        m_buff = rhs.m_buff; 
+        m_buff = rhs.m_buff;
     }
     return *this;
 }
