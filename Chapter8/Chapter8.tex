@@ -332,7 +332,7 @@ delete p2; // 错误：p2指向的动态内存已经被释放
 
 \column{0.65\textwidth}
 \begin{blueblock}<2->{重置空悬指针}
-\begin{tikzpicture}[overlay]  
+\begin{tikzpicture}[overlay]
    \node<2>[rectangle,draw=red, text=red ] (a1) at(8,-0.5){0x124A6854};
    \node[text=red] at (6.5,-0.5) {p};
    \draw<2>[thick,red,->] (-0.2,-0.5)--(0.0,-0.5);
@@ -912,7 +912,6 @@ MyStr operator+(const MyStr &s1, const MyStr &s2){
 \begin{yellowblock}{说明}
 $\bullet$~在输出运算符\texttt{<<}函数体内，动态字符数组中的字符逐个写入到输出流对象\texttt{os}中，并返回~\alert{\texttt{os}的引用}\\
 $\bullet$~重载的\texttt{MyStr}类运算符\texttt{+}，将两个形参\texttt{MyStr}类对象中的字符连接起来，形成一个新的\texttt{MyStr}类对象\texttt{res}，并以值的形式返回~\alert{\texttt{res}的副本}
-$\bullet$~
 \end{yellowblock}
 
 \end{columns}
@@ -1186,15 +1185,105 @@ s3 = s1 + s2;
 
 \column{0.3\textwidth}
 \begin{yellowblock}{说明}
-和移动构造函数类似，移动赋值运算符也可以避免数据的复制，提高程序的性能
+$\bullet$和移动构造函数类似，移动赋值运算符也可以避免数据的复制，提高程序的性能\\
+$\bullet$ \alert{没有任何拷贝控制成员（含析构函数），且所有成员支持移动，编译器才合成移动构造和移动赋值运算}
 \end{yellowblock}
 
 \end{columns}
-
 \end{frame}
 
 %-----------------
+\begin{frame}[fragile]{内存高效管理\normalsize{~---~内存对齐}}
+\vspace{-4mm}
+\begin{columns}[t]
+\column{0.65\textwidth}
+\begin{blueblock}{内存空间}
+\vspace{-1.5mm}
+\begin{columns}
+\column{0.2\textwidth}
+\begin{lstlisting}[]
+struct A{
+    char a;
+    int b;
+    short c;
+};
+\end{lstlisting}
+\column{0.2\textwidth}
+\begin{lstlisting}[]
+struct B{
+    char a;
+    short b;
+    int c;
+};
+\end{lstlisting}
+\column{0.4\textwidth}
+\begin{lstlisting}[]
+cout << sizeof (A) << " " << sizeof(B);
+//输出12 8
+\end{lstlisting}
+\onslide<2->{\scriptsize 如何减少内存使用，提升数据存取效率？}
+\end{columns}
+\end{blueblock}
 
+\begin{blueblock}<3->{内存对齐}
+\vspace{-1.5mm}
+\begin{itemize}
+  \item 第一个成员的偏移量为0
+  \item 每个成员相对首地址的\textbf{偏移量}是 min(对齐系数, 自身长度)的整数倍，如有需要编译器会在成员之间加上\textbf{填充字节}
+  \item 总大小为\textbf{对齐单位}的整数倍，如有需要编译器会在最末一个成员之后加上\textbf{填充字节}。
+\end{itemize}
+\end{blueblock}
+\column{0.3\textwidth}
+\begin{yellowblock}<4>{}
+\begin{columns}
+\column{0.01\textwidth}
+\begin{tikzpicture}[overlay]
+\node at (0,0.6) {A};
+\end{tikzpicture}
+\column{0.99\textwidth}
+\begin{tikzpicture}
+\draw node at(0,0){a} node[rectangle, draw=black] at (0.49,0){\hspace*{2.1pt}{\tiny 1B}\hspace*{2.1pt}} node[rectangle, draw=red] at (1.835,0){\hspace*{21.3pt}{\tiny 3B}\hspace*{21.3pt}};
+\draw node at(0,-0.45){b}  node[rectangle, draw=black] at (1.5,-0.45){\hspace*{30.7pt}{\tiny 4B}\hspace*{30.7pt}} node[rectangle, draw=black,font=\tiny] at(3.6,-0.45){成员长度};
+\draw  node at(0,-0.9){c} node[rectangle, draw=black] at (0.827,-0.9){\hspace*{11.6pt}{\tiny 2B}\hspace*{11.6pt}} node[rectangle, draw=red] at (2.165,-0.9){\hspace*{11.6pt}{\tiny 2B}\hspace*{11.6pt}};
+\end{tikzpicture}
+\end{columns}
+\vspace{2mm}
+
+\begin{columns}
+\column{0.01\textwidth}
+\begin{tikzpicture}[overlay]
+\node at (0,0.6) {B};
+\end{tikzpicture}
+\column{0.99\textwidth}
+\begin{tikzpicture}
+\draw node at(0,0){a} node[rectangle, draw=black] at (0.49,0){\hspace*{2.1pt}{\tiny 1B}\hspace*{2.1pt}} node[rectangle, draw=red] at (1.16,0){\hspace*{2.1pt}{\tiny 1B}\hspace*{2.1pt}};
+\draw node at(0,-0.45){b} node[rectangle, draw=black] at (0.827,-0.45){\hspace*{11.6pt}{\tiny 2B}\hspace*{11.6pt}} node[rectangle, draw=red,font=\tiny] at(3.6,-0.45){填充长度};
+\draw node at(0,-0.9){c}  node[rectangle, draw=black] at (1.5,-0.9){\hspace*{30.7pt}{\tiny 4B}\hspace*{30.7pt}};
+\end{tikzpicture}
+\end{columns}
+\end{yellowblock}
+
+\begin{yellowblock}<3->{说明}
+$\bullet$对齐系数：处理器的内存存取单位，每个平台上的编译器都有自己的``对齐系数''\\
+$\bullet$对齐单位：\\min(对齐系数, 最大成员宽度)
+\end{yellowblock}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]{内存高效管理\normalsize{~---~堆和栈}}
+
+\begin{block}{堆和栈对比}
+\begin{itemize}
+  \item 碎片问题：对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题，因为栈是先进后出的队列，永远都不可能有一个内存块从栈中间弹出。
+  \item 分配方式：栈有编译器自动维护，堆由程序员手工维护。
+  \item 分配效率：栈是机器系统提供的数据结构，计算机会在底层对栈提供支持，栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的，效率低(按照一定的算法在堆内存中搜索可用的足够大小的空间，如果没有足够大小的空间，就有可能调用系统功能去增加程序数据段的内存空间)。
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%-----------------
 %##################################################################
 \section{线性链表}
 %##################################################################
