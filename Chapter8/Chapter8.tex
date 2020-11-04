@@ -682,14 +682,14 @@ cout << *p;
 \begin{columns}[t]
 
 \column{0.65\textwidth}
-\begin{blueblock}<2->{创建动态数组}
+\begin{blueblock}{创建动态数组}
 \vspace{-1.5mm}\begin{lstlisting}[moreemph={}]
 int n = 5;
 int *pa = new int[n]; //创建存储n个int元素的数组
 \end{lstlisting}\vspace{-1.5mm}
 \end{blueblock}
 
-\begin{blueblock}<3->{创建并初始化动态数组}
+\begin{blueblock}<2->{创建并初始化动态数组}
 \vspace{-1.5mm}\begin{lstlisting}[moreemph={}]
 int *pa1 = new int[5];          // 5个未初始化的 int
 int *pa2 = new int[5]();        // 5个值为0的 int
@@ -698,10 +698,10 @@ int *pa3 = new int[5]{1,2,3,4,5};
 \end{blueblock}
 
 \column{0.3\textwidth}
-\begin{yellowblock}<2->{说明}
+\begin{yellowblock}{说明}
 \texttt{new}返回第一个元素的地址，n可以是非常量，值可以为0
 \end{yellowblock}
-\begin{yellowblock}<3->{说明}
+\begin{yellowblock}<2->{说明}
 新标准下可以使用花括号来执行数组元素的初始化
 \end{yellowblock}
 
@@ -709,7 +709,7 @@ int *pa3 = new int[5]{1,2,3,4,5};
 
 \vspace{4mm}
 
-\uncover<4->{动态数组的释放需要在 delete 前面加上一个空方括号：}
+\uncover<3->{动态数组的释放需要在 delete 前面加上一个空方括号：}
 
 \vspace{-4mm}
 
@@ -717,7 +717,7 @@ int *pa3 = new int[5]{1,2,3,4,5};
 
 \column{0.65\textwidth}
 
-\begin{blueblock}<5->{释放动态数组}
+\begin{blueblock}<4->{释放动态数组}
 \vspace{-1.5mm}\begin{lstlisting}[moreemph={}]
 delete [] pa;   //正确
 delete  pa;     //错误，产生未定义行为
@@ -725,7 +725,7 @@ delete  pa;     //错误，产生未定义行为
 \end{blueblock}
 
 \column{0.3\textwidth}
-\begin{yellowblock}<5->{说明}
+\begin{yellowblock}<4->{说明}
 将逆序释放 \texttt{pa}指向的动态数组的每一个元素
 \end{yellowblock}
 
@@ -1038,17 +1038,17 @@ MyStr& MyStr::operator=(const MyStr &rhs){
 
 \column{0.27\textwidth}
 \begin{yellowblock}<2->{说明}
-首先要为待创建对象分配内存空间，然后将目标对象的内容复制到待创建对象中
+首先为待创建对象分配内存，然后将目标对象的内容复制到待创建对象中
 \end{yellowblock}
 \vspace{-2mm}
-\begin{greenblock}<4->{问题}
-为什么不能缺少\texttt{if}语句？
+\begin{greenblock}<4->{为什么需要\texttt{if}语句？}
+\visible<5-> {避免对自己的复制，引发错误 ~s1 = s1;}
 \end{greenblock}
 \vspace{-2mm}
-\begin{greenblock}<5->{答案}
-避免对自己的复制，引发错误 \\
-s1 = s1;
-\end{greenblock}
+\begin{yellowblock}<6->{\alert{三}/五法则}
+需要析构,则需要复制构造和赋值运算符
+\end{yellowblock}
+\vspace{-2mm}
 \end{columns}
 \end{frame}
 
@@ -1058,14 +1058,8 @@ s1 = s1;
 \subsection{移动对象}
 %++++++++++++++++++++++++++++++++++++++++++++++
 
-%-----------------
-
 \begin{frame}[fragile]{8.2.3~移动对象}
-
-从代码性能角度考虑，创建\texttt{s3}的过程有什么不足？
-
 \vspace{-4mm}
-
 \begin{columns}[t]
 
 \column{0.68\textwidth}
@@ -1073,7 +1067,7 @@ s1 = s1;
 \vspace{-2.5mm}\begin{lstlisting}[moreemph={MyStr}]
 MyStr s1("move "), s2("constructor");
 MyStr s3(s1+s2);
-\end{lstlisting}\vspace{-2.5mm}
+\end{lstlisting}\vspace{-2.mm}
 \end{blueblock}
 \vspace{-2mm}
 \begin{blueblock}{\texttt{MyStr}类\texttt{operator+}运算符重载部分定义}
@@ -1083,7 +1077,7 @@ MyStr operator+(const MyStr &s1, const MyStr &s2){
     /*...*/
     return res;
 }
-\end{lstlisting}\vspace{-2.5mm}
+\end{lstlisting}\vspace{-2.mm}
 \end{blueblock}
 \vspace{-2mm}
 \begin{blueblock}{\texttt{MyStr}类复制构造函数定义}
@@ -1092,10 +1086,13 @@ MyStr::MyStr(const MyStr &rhs):m_length(rhs.m_length),
     m_buff(m_length>0 ? new char[m_length] : nullptr){
     strncpy(m_buff, rhs.m_buff, m_length);
 }
-\end{lstlisting}\vspace{-2.5mm}
+\end{lstlisting}\vspace{-2.mm}
 \end{blueblock}
 
 \column{0.27\textwidth}
+\begin{greenblock}{问题}
+从代码性能角度考虑，创建\texttt{s3}的过程有什么不足？
+\end{greenblock}
 \begin{greenblock}<2->{答案}
 $\bullet$~\texttt{s1+s2}返回的是一个临时对象，属于右值\\
 $\bullet$~在复制构造中，\texttt{s3}~\alert{新开辟}了动态内存空间，复制临时对象申请的动态内存中的内容，而临时对象申请的动态内存又马上\alert{被释放}
@@ -1270,6 +1267,63 @@ $\bullet$对齐单位：\\min(对齐系数, 最大成员宽度)
 \end{columns}
 \end{frame}
 
+
+\begin{frame}[fragile]{内存高效管理\normalsize{~---~内存对齐}}
+
+\begin{block}{查看对齐单位alignof(C++11)}
+\vspace{-3mm}
+\begin{columns}
+\column{0.3\textwidth}
+\begin{lstlisting}[]
+struct A{
+    char a;  int b;  short c;
+};
+\end{lstlisting}
+\column{0.3\textwidth}
+\begin{lstlisting}[]
+struct B{
+    char a;  short b;  int c;
+};
+\end{lstlisting}
+\column{0.3\textwidth}
+\begin{lstlisting}[]
+struct A3{
+    char a;  char b;  char c;
+};
+\end{lstlisting}
+\end{columns}
+\vspace{-3mm}
+\begin{lstlisting}[]
+    cout<< alignof(char) <<" " << alignof(int) << '\n';                     //输出 1 4
+    cout<< alignof(A1) <<" "<<alignof(A2)<< " "<<alignof(A3)<<'\n';         //输出 4 4 1
+\end{lstlisting}
+\end{block}
+
+\begin{block}<2->{设置对齐单位alignas(C++11)}
+\vspace{-3mm}
+\begin{columns}
+\column{0.4\textwidth}
+\begin{lstlisting}[]
+struct ColorVector1{
+    double r;    double g;
+    double b;    double a;
+};
+\end{lstlisting}
+\column{0.4\textwidth}
+\begin{lstlisting}[]
+struct alignas(32) ColorVector2{
+    double r;    double g;
+    double b;    double a;
+};
+\end{lstlisting}
+\end{columns}
+\vspace{-3mm}
+\begin{lstlisting}[]
+    cout<<alignof (ColorVector1)<<" "<<alignof (ColorVector2)<<endl;                 //输出 8 32
+\end{lstlisting}
+    alignas中的实参值不能小于最大成员宽度
+\end{block}
+\end{frame}
 
 \begin{frame}[fragile]{内存高效管理\normalsize{~---~堆和栈}}
 
