@@ -1358,7 +1358,9 @@ struct alignas(32) ColorVector2{
 \begin{center}
 \includegraphics[scale=0.27]{datastructure}
 \end{center}
+
 \end{frame}
+
 %-----------------
 
 \begin{frame}[fragile]{8.3~线性链表}
@@ -2102,17 +2104,17 @@ Stack<T>::~Stack() {
 \vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},numbers=left,xleftmargin=2em,framexleftmargin=2em]
 class Calculator {
 private:
-    Stack<double> m_num;                                //操作数栈
-    Stack<char> m_opr;                                  //运算符栈
-    int precedence(const char &s ) const;               //获取运算符优先级
-    double readNum(string::const_iterator &it);         //读取操作数
-    void calculate();                                   //取出运算符和操作数进行计算
-    bool isNum(string::const_iterator &c) const {          //内联函数，判断是否为数字
-        return* c >= ’0’&& * c <= ’9’ || * c == ’.’;
+    Stack<double> m_num;                                    //操作数栈
+    Stack<char> m_opr;                                      //运算符栈
+    int precedence(const char &s ) const;                   //获取运算符优先级
+    double readNum(string::const_iterator &it);             //读取操作数
+    void calculate();                                       //取出运算符和操作数进行计算
+    bool isNum(string::const_iterator &c) const {           //内联函数，判断是否为数字
+        return *c >= ’0’&& *c <= ’9’ || *c == ’.’;
     }
 public:
-    Calculator(){ m_opr.push(’#’); }                    //运算符栈初始化
-    double doIt(const string &exp);                     //表达式求值
+    Calculator(){ m_opr.push(’#’); }                        //运算符栈初始化
+    double doIt(const string &exp);                             //表达式求值
 };
 \end{lstlisting}\vspace{-2mm}
 \end{blueblock}
@@ -2124,7 +2126,7 @@ public:
 
 简单四则运算的类代码清单如下：
 \begin{blueblock}{\texttt{Calculator}类定义部分二}
-\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=17,numbers=left,xleftmargin=2em,framexleftmargin=2em]
+\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=15,numbers=left,xleftmargin=2em,framexleftmargin=2em]
 int Calculator::precedence(const char & s) const{
     switch (s) {
         case ’=’: return 0;
@@ -2151,7 +2153,7 @@ double Calculator::readNum(string::const_iterator &it){
 
 简单四则运算的类代码清单如下：
 \begin{blueblock}{\texttt{Calculator}类定义部分三}
-\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=31,numbers=left,xleftmargin=2em,framexleftmargin=2em]
+\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=29,numbers=left,xleftmargin=2em,framexleftmargin=2em]
 void Calculator::calculate(){
     double b = m_num.top();                //取出右操作数
     m_num.pop();                           //右操作数出栈
@@ -2179,7 +2181,7 @@ void Calculator::calculate(){
 
 简单四则运算的类代码清单如下：
 \begin{blueblock}{\texttt{Calculator}类定义部分四}
-\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=46,numbers=left,xleftmargin=2em,framexleftmargin=2em]
+\vspace{-2.5mm}\begin{lstlisting}[moreemph={Calculator,const\_iterator,Stack},firstnumber=44,numbers=left,xleftmargin=2em,framexleftmargin=2em]
 double Calculator::doIt(const string &exp){
     m_num.clear();                          //保证同一个对象再次调用doIt时数据栈为空
     for (auto it = exp.begin(); it != exp.end();) {
@@ -2187,11 +2189,11 @@ double Calculator::doIt(const string &exp){
             m_num.push(readNum(it));        //操作数入栈
         else{                           //遇到运算符，while循环条件中不能忽略优先级相同的情况
             while (precedence(*it) <= precedence(m_opr.top())){
-                if (m_opr.top() == ’#’) break;          //如果运算符栈只剩下#，则计算完毕
-                calculate();                            //执行栈顶运算符计算
+                if (m_opr.top() == ’#’) break;              //如果运算符栈只剩下#，则计算完毕
+                calculate();                                //执行栈顶运算符计算
             }
-            if ( *it != ’=’)   m_opr.push( *it);        //运算符入栈
-            ++it;                                       //继续扫描
+            if ( *it != ’=’)   m_opr.push( *it);            //运算符入栈
+            ++it;                                           //继续扫描
         }
     }
     return m_num.top();                                 //返回计算结果，注意数据栈此时非空
@@ -2605,9 +2607,12 @@ child {node {$*$}
 \begin{blueblock}{后序遍历}
 \onslide<2->{$a~b~c~/~-~d~e~*~+~$}
 \end{blueblock}
+\begin{greenblock}<3->{哪种遍历计算最简便？}
+\onslide<4->{后序遍历--无需考虑优先级和结合性}
+\end{greenblock}
 
 \column{0.3\textwidth}
-\begin{blueblock}<3->{中序转后序}
+\begin{blueblock}<5->{中序转后序}
 \begin{enumerate}
 \item 加括号 $((~a~-~(~b~/~c~))~+~(~d~*~e~))$
 \item 将运算符放到括号后
@@ -2632,8 +2637,8 @@ $a~b~c~/~-~d~e~*~+~$
 template<typename T>
 void BinaryTree<T>::inOrder(Node<T> *p,void (*visit)(T&)){
     if (p != nullptr){
-        inOrder(p->m_left, visit); //遍历左子树
-        visit(p->m_data); //用户自定义访问函数
+        inOrder(p->m_left, visit);  //遍历左子树
+        visit(p->m_data);               //用户自定义访问函数
         inOrder(p->m_right, visit); //遍历右子树
     }
 }
@@ -2651,10 +2656,12 @@ void BinaryTree<T>::inOrder(Node<T> *p,void (*visit)(T&)){
 \column{0.72\textwidth}
 \begin{blueblock}<2->{定义一个简单的访问函数模板--\texttt{visit}}
 \vspace{-3mm}\begin{lstlisting}[moreemph={BinaryTree,T,Node}]
-template<typename T> void visit(T &value) { cout << value << " "; }
+template<typename T> void visit(T &value) { 
+    cout<<value<< " "; 
+}
 \end{lstlisting}\vspace{-2mm}
 \end{blueblock}
-
+\vspace{-2mm}
 \column{0.23\textwidth}
 \begin{yellowblock}<2->{说明}
 打印结点的数据
@@ -2727,7 +2734,7 @@ Node<T>* BinaryTree<T>::search_(Node<T> *p, const T &value)const{
 
 \begin{frame}[fragile]{8.5.5~销毁操作}
 
-采用后序方式逐个释放每个结点的内存：
+采用\alert{后序}方式逐个释放每个结点的内存：
 
 \vspace{-4mm}
 
@@ -2744,9 +2751,12 @@ void BinaryTree<T>::destroy(Node<T> *p){
         delete p;               //释放根结点内存
     }
 }
-\end{lstlisting}\vspace{-3mm}
+\end{lstlisting}\vspace{-2mm}
 \end{blueblock}
 
+\begin{greenblock}<3->{}
+可否采用先序或中序方式销毁？
+\end{greenblock}
 \column{0.23\textwidth}
 \begin{yellowblock}{说明}
 $\bullet$~释放给定结点及其左右子树的内存\\
