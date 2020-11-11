@@ -54,14 +54,14 @@
 %\usepackage{tikz}
 %\usetikzlibrary{shapes.geometric, arrows}
 \usepackage{listings}
-\lstset{language=C++,
-    columns=flexible,
+\lstset{language=C,
+    columns=fullflexible,
     basicstyle=\footnotesize\ttfamily,                                    % 设定代码字体、大小
     %numbers=left,xleftmargin=2em,framexleftmargin=2em,                   % 在左侧显示行号
     numberstyle=\color{darkgray},                                        % 设定行号格式
     keywordstyle=\color{blue},                                            % 设定关键字格式
     commentstyle=\color{ao(english)},                                     % 设置代码注释的格式
-    stringstyle=\color{brown},                                            % 设置字符串格式
+    stringstyle=\ttfamily\color{brown},                                            % 设置字符串格式
     %showstringspaces=false,                                              % 控制是否显示空格
 	%frame=single,                                                         % 控制外框
     breaklines,                                                           % 控制是否折行
@@ -70,6 +70,7 @@
     emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple,ostream}, % 非内置类型
     emphstyle={\color{teal}},
     escapeinside={(*@}{@*)},
+    mathescape=true
 }
 
 \def\pgfsysdriver{pgfsys -dvipdfmx.def}
@@ -2163,7 +2164,7 @@ void Calculator::calculate(){
         m_num.push(a + b);                 //将计算结果压栈，下面三个运算与此操作相同
     else if (m_opr.top() == ’-’)
         m_num.push(a - b);
-    else if (m_opr.top() == ’ * ’)
+    else if (m_opr.top() == ’*’)
         m_num.push(a*b);
     else if (m_opr.top() == ’/’)
         m_num.push(a / b);
@@ -2656,8 +2657,8 @@ void BinaryTree<T>::inOrder(Node<T> *p,void (*visit)(T&)){
 \column{0.72\textwidth}
 \begin{blueblock}<2->{定义一个简单的访问函数模板--\texttt{visit}}
 \vspace{-3mm}\begin{lstlisting}[moreemph={BinaryTree,T,Node}]
-template<typename T> void visit(T &value) { 
-    cout<<value<< " "; 
+template<typename T> void visit(T &value) {
+    cout<<value<< " ";
 }
 \end{lstlisting}\vspace{-2mm}
 \end{blueblock}
@@ -2765,8 +2766,6 @@ $\bullet$~访问权限声明为私有，是析构函数的实现
 \begin{redblock}<2->{注意}
 若在它处执行此函数后，必须把给定结点的父结点（如有）指向此结点的指针成员置空，否则成为\alert{空悬指针}
 \end{redblock}
-
-
 \end{columns}
 
 \end{frame}
