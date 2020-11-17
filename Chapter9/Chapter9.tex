@@ -662,6 +662,7 @@ Course::~Course() {    cout<< "Destr of Course" <<endl;  }
     {9.2 构造、拷贝控制与继承\small{—拷贝控制与继承}}
     \begin{block}{复制、移动与继承}
         一个派生类对象在\alert{复制}或\alert{移动}的时候，除复制或移动自有成员外，还要复制或移动基类部分的成员。因此，通常在复制或移动构造函数的初始化列表中调用基类的\alert{复制或移动构造函数}。
+        
     \begin{columns}
     \begin{column}{0.06\linewidth}
     \end{column}
@@ -671,13 +672,24 @@ class A{/*...*/};
 class B : public A {
     string m_d;
 public:
-    B(const B &d):A(d) /* 复制A的成员 */, m_d(d.m_d) /* 复制B的成员 */ {
-    }
-    B(B &&d):A(std::move(d)) /* 移动A的成员  */, m_d(std::move(d.m_d)) /* 移动B的成员  */ {
-    }
+    B(const B &d):A(d), m_d(d.m_d){    }
+    B(B &&d):A(std::move(d)),m_d(std::move(d.m_d)){   }
 };
-    \end{lstlisting}\vspace{-2mm}
+    \end{lstlisting} 
+    \visible<2->{
+        \begin{tikzpicture}[remember picture,overlay]
+          \node[text=red](ca) at(5,2.5){复制A的成员};
+          \node[text=red](cb) at(8,2.5){复制B的成员};
+          \node[text=red](ma) at(5,0){移动A的成员};
+          \node[text=red](mb) at(8,0){移动B的成员};
+          \draw[->,red,line width =1.pt] (ca)-- (4,2);
+          \draw[->,red,line width =1.pt] (cb)-- (6,2);
+          \draw[->,red,line width =1.pt] (ma)-- (4,1);
+          \draw[->,red,line width =1.pt] (mb)-- (8,1);
+    \end{tikzpicture} } 
+    \vspace{-6mm} 
     \end{column}
+
     \end{columns}
     \end{block}
 \end{frame}
@@ -709,6 +721,35 @@ B& B::operator=(const B &d) {
 
 \section{虚函数与多态性}
 \subsection{虚函数}
+
+\begin{frame}[fragile]{9.3 虚函数与多态性}
+    \begin{block}{思考}
+    \begin{center}
+    \scalebox{1.5}{ 如果基类成员的实现在派生类里面不再适用，怎么办？}
+    \end{center}
+    \end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{9.3 虚函数与多态性}
+    \begin{block}{}
+    \begin{center}
+    \begin{tikzpicture}[grow=right]
+      \tikzstyle{every node}=[fill=red!30,rounded corners,minimum size=0.5cm,inner sep=0pt]
+      \tikzstyle{edge from parent}=[red,thick,draw]
+      \node{C++多态}[level distance=30mm]
+      child{[level distance=30mm] node {运行时多态}
+        child{node{继承与虚函数}}}
+      child[missing]
+      child{[level distance=30mm] node {编译时多态}
+        child{node{函数重载}}
+        child{node{模板实例}}
+        };
+    \end{tikzpicture}
+    \end{center}
+    \end{block}
+\end{frame}
+
 \begin{frame}[fragile]
     {9.3 虚函数与多态性\small{—动态绑定}}
     \begin{block}{静态类型}
@@ -720,7 +761,7 @@ B& B::operator=(const B &d) {
     \end{block}
     \pause
     \begin{block}{动态类型}
-    指指针或引用所绑定的对象的类型，仅在运行时可知，例如：
+    指\alert{指针或引用}所绑定的对象的类型，仅在运行时可知，例如：
     \begin{lstlisting}[moreemph={Base,Derived}]
     class Derived : public Base { };
     Derived d;      //非指针或引用，动态类型与静态类型相同
@@ -785,36 +826,36 @@ public:
     \begin{block}{动态绑定}
     除需要重写基类的虚函数外，还必须用基类的指针或引用才能触发\alert{动态绑定}
     \end{block}
-    \pause
-    \begin{columns}
-     \begin{column}{0.52\linewidth}
+    \pause   
      \begin{block}{利用指针触发动态绑定}
-   \begin{lstlisting}[moreemph={Shape,Square,Circle}]
-Shape sh, *p = &sh;       //p指向Shape类对象
+     \vspace{-4mm}
+     \begin{columns}
+     \column{0.5 \textwidth}
+     \begin{lstlisting}[moreemph={Shape,Square,Circle}]
+Shape sh, *p = &sh; //p指向Shape类对象
 Square sq(1.0);
-
-cout<<p->area()<<endl;    //打印输出0
-p = &sq;                  //p的动态类型为Square
-
-cout<<p->area()<<endl;    //打印输出1.0
+cout<<p->area()<<endl; //打印输出0
     \end{lstlisting}\ttfamily
+    \column{0.45 \textwidth}
+     \begin{lstlisting}[moreemph={Shape,Square,Circle}]
+p = &sq;       //p的动态类型为Square
+cout<<p->area(); //打印输出1.0
+    \end{lstlisting}\ttfamily
+     \end{columns}
+   
     \end{block}
-     \end{column}
-     \pause
-      \begin{column}{0.44\linewidth}
+   
+     \pause 
       \begin{block}{利用引用触发动态绑定}\vspace{-3mm}
  \begin{lstlisting}[moreemph={Shape,Square,Circle}]
-bool operator>(const Shape &a, const Shape &b) {
-    return a.area()>b.area();
-}
+bool operator>(const Shape &a, const Shape &b){return a.area()>b.area();}
 Shape *p = nullptr;
 Square sq(2.0);
 Circle ci(1.2);
 if(sq>ci)  p = &sq;
-    \end{lstlisting}\ttfamily
+    \end{lstlisting}
+    \vspace{-2mm}
     \end{block}
-     \end{column}
-    \end{columns}
 
 \end{frame}
 
@@ -894,7 +935,7 @@ void test() {
     {9.3 虚函数与多态性\small{—动态绑定}}
 \vspace{-8mm}
 \begin{columns}[t]
-\column{0.65\textwidth}
+\column{0.7\textwidth}
     \begin{block}{}
     \vspace{-3mm}\begin{lstlisting}[moreemph={Base,Derived}]
 class Base{
@@ -915,7 +956,7 @@ void test(){
 }
     \end{lstlisting}\vspace{-3mm}
     \end{block}
-    \column{0.3\textwidth}
+    \column{0.25\textwidth}
     \begin{block}{注意}
     如果参数具有默认值，则各个版本中对应形参的\alert{默认值必须相同}\\
     \end{block}
@@ -1025,8 +1066,8 @@ struct D2 : public D1 {
     public:
         void bark();
     };
-    Dog dog;          //创建一个Dog类对象
-    dog.bark();       //调用bark函数
+    Dog dog;        //创建一个Dog类对象
+    dog.bark();     //调用bark函数
     \end{lstlisting}\ttfamily
     虽然dog能汪汪叫，但是它也会喵喵叫，显然这是\alert{不符合}事实的。Dog不是一种Cat，显然\alert{不是属于关系}。
      \end{block}
@@ -1040,8 +1081,8 @@ struct D2 : public D1 {
     public:
         void bark();
     };
-    Dog dog;          //创建一个Dog类对象
-    dog.bark();       //调用bark函数
+    Dog dog;        //创建一个Dog类对象
+    dog.bark();     //调用bark函数
     \end{lstlisting}\ttfamily
     虽然dog不能喵喵叫了，但\alert{不符合自然逻辑}。Dog和Cat类显然\alert{不是组合关系}。
      \end{block}
@@ -1204,38 +1245,19 @@ public:
     \end{columns}
 \end{frame}
 
-
 \begin{frame}[fragile]
     {9.3 虚函数与多态性\small{—再探计算器}}
-    \begin{block}{利用智能指针管理内存}
-    由于unique\_ptr不支持复制操作，因此向前面章节定义的Node模板和Stack模板分别添加支持移动语义的构造函数和push函数：
-        \begin{lstlisting}[basicstyle=\normalsize\ttfamily,moreemph={Node, T,Stack}]
-        template<typename T>                // 含右值形参的移动构造函数
-        Node<T>::Node(T &&val) :m_value(std::move(val)) { }
-
-        template<typename T>
-        void Stack<T>::push(T &&val) {       //含右值形参的push函数
-            Node<T> *node = new Node<T>(std::move(val));
-            node->m_next = m_top;
-            m_top = node;
-        }
-\end{lstlisting}
-    \end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-    {9.3 虚函数与多态性\small{—再探计算器}}
-    \begin{block}{定义计算器类}
+    \begin{block}{定义计算器类-通过运算符栈保存基类指针实现动态绑定}
     \begin{lstlisting}[moreemph={Stack,Operator}]
 class Calculator {
 private:
-    Stack<double> m_num;               //操作数栈
-    Stack<unique_ptr<Operator>> m_opr; //运算符数栈
+    Stack<double> m_num;                        //操作数栈
+    Stack<unique_ptr<Operator>> m_opr;          //运算符数栈，利用智能指针管理内存
     void calculate();
     //成员函数readNum和isNum与前面章节定义的相同
 public:
     Calculator(){
-        m_opr.push(make_unique<Hash>()); //调用移动push函数
+        m_opr.push(make_unique<Hash>());        //调用移动push函数
     }
     double doIt(const string &exp);
 };
@@ -1307,6 +1329,23 @@ double Calculator::doIt(const string &exp){
     \end{block}
 \end{frame}
 
+\begin{frame}[fragile]
+    {9.3 虚函数与多态性\small{—再探计算器}}
+    \begin{block}{增加移动语义}
+    由于unique\_ptr不支持复制操作，因此向前面章节定义的Node模板和Stack模板分别添加支持移动语义的构造函数和push函数：
+        \begin{lstlisting}[basicstyle=\normalsize\ttfamily,moreemph={Node, T,Stack}]
+        template<typename T>                // 含右值形参的移动构造函数
+        Node<T>::Node(T &&val) :m_value(std::move(val)) { }
+
+        template<typename T>
+        void Stack<T>::push(T &&val) {       //含右值形参的push函数
+            Node<T> *node = new Node<T>(std::move(val));
+            node->m_next = m_top;
+            m_top = node;
+        }
+\end{lstlisting}
+    \end{block}
+\end{frame}
 
 \begin{frame}[fragile]
     \frametitle{~~}
