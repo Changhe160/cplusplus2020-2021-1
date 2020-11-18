@@ -13,6 +13,7 @@
     \usepackage{listings}
     \usepackage{wrapfig}
     \usepackage{graphicx}
+    \usepackage{marvosym}
     % \usepackage{fboxrule}
 
     \definecolor{indiagreen}{rgb}{0.07, 0.53, 0.03}
@@ -277,7 +278,7 @@ class NoDerived final { };   //NoDerived不能作为基类被继承
     \begin{block}{派生类访问基类成员：private VS public}
   private 只能在类内部访问（i.e., 派生类无权访问基类成员）， 而 public又失去了隐私保护
     \end{block}
-    
+
     \begin{block}<2->{访问限定声明}
     \begin{center}
       \begin{tabular}{|c|cccc|}
@@ -287,8 +288,8 @@ class NoDerived final { };   //NoDerived不能作为基类被继承
       \hline
     \end{tabular}
     \end{center}
-    
-   
+
+
     \begin{itemize}
     \item \textcolor[rgb]{0,0,1}{\texttt{public}} :可以被a、b、c和d访问。
     \item \textcolor[rgb]{1,0,0}{\texttt{protected}} :可以被a、b和c访问。
@@ -436,39 +437,39 @@ public:
     \begin{lstlisting}[]
 class Derived : public Base {
     /*...*/
-    int foo() { 
-        return Base::m_data; 
-    }       
+    int foo() {
+        return Base::m_data;
+    }
 };
-    \end{lstlisting}    
+    \end{lstlisting}
     \end{column}
         \begin{column}{0.48\linewidth}
     \begin{lstlisting}[]
- Base b;  
+ Base b;
  Derived d;
  b.foo(10);//ok:调用Base::foo
  d.foo(); //ok:调用Derived::foo
  d.foo(10);//错误:Base::foo被隐藏
     \end{lstlisting}
-    \end{column}    
+    \end{column}
     \end{columns}
     \end{block}
-   
+
     \setbeamercolor{bgcolor}{fg=black,bg=green!50!white}
     \begin{beamercolorbox}[rounded=true, shadow=false,wd=10cm]{bgcolor}
     如果我们想调用基类中的foo函数，我们应该如何做？
     \end{beamercolorbox}
 \begin{columns}
-\begin{column}{0.47\textwidth}    
-\begin{lstlisting}<2->[]    
+\begin{column}{0.47\textwidth}
+\begin{lstlisting}<2->[]
 d.Base::foo(10);//正确
 class Derived: public Base{
-public: 
+public:
 \end{lstlisting}
 \end{column}
 \begin{column}{0.47\textwidth}
 \begin{lstlisting}<2->[]
-    using Base::foo;  
+    using Base::foo;
 };
 d.foo(10); //正确
 \end{lstlisting}
@@ -662,7 +663,7 @@ Course::~Course() {    cout<< "Destr of Course" <<endl;  }
     {9.2 构造、拷贝控制与继承\small{—拷贝控制与继承}}
     \begin{block}{复制、移动与继承}
         一个派生类对象在\alert{复制}或\alert{移动}的时候，除复制或移动自有成员外，还要复制或移动基类部分的成员。因此，通常在复制或移动构造函数的初始化列表中调用基类的\alert{复制或移动构造函数}。
-        
+
     \begin{columns}
     \begin{column}{0.06\linewidth}
     \end{column}
@@ -675,7 +676,7 @@ public:
     B(const B &d):A(d), m_d(d.m_d){    }
     B(B &&d):A(std::move(d)),m_d(std::move(d.m_d)){   }
 };
-    \end{lstlisting} 
+    \end{lstlisting}
     \visible<2->{
         \begin{tikzpicture}[remember picture,overlay]
           \node[text=red](ca) at(5,2.5){复制A的成员};
@@ -686,8 +687,8 @@ public:
           \draw[->,red,line width =1.pt] (cb)-- (6,2);
           \draw[->,red,line width =1.pt] (ma)-- (4,1);
           \draw[->,red,line width =1.pt] (mb)-- (8,1);
-    \end{tikzpicture} } 
-    \vspace{-6mm} 
+    \end{tikzpicture} }
+    \vspace{-6mm}
     \end{column}
 
     \end{columns}
@@ -727,6 +728,18 @@ B& B::operator=(const B &d) {
     \begin{center}
     \scalebox{1.5}{ 如果基类成员的实现在派生类里面不再适用，怎么办？}
     \end{center}
+    \pause
+    \begin{lstlisting}
+class Animal{
+    public:
+        void eat() { std::cout << "I'm eating generic food."; }
+};
+
+class Cat : public Animal{
+    public:
+        void eat() { std::cout << "I'm eating a rat."; }
+};
+\end{lstlisting}
     \end{block}
 \end{frame}
 
@@ -737,9 +750,9 @@ B& B::operator=(const B &d) {
     \begin{tikzpicture}[grow=right]
       \tikzstyle{every node}=[fill=red!30,rounded corners,minimum size=0.5cm,inner sep=0pt]
       \tikzstyle{edge from parent}=[red,thick,draw]
-      \node{C++多态}[level distance=30mm]
-      child{[level distance=30mm] node {运行时多态}
-        child{node{继承与虚函数}}}
+      \node{\scalebox{1.2}{C++多态}}[level distance=30mm]
+      child{[level distance=40mm,text=blue] node {\scalebox{1.2}{运行时多态}}
+        child{node{\scalebox{1.2}{继承与虚函数}}}}
       child[missing]
       child{[level distance=30mm] node {编译时多态}
         child{node{函数重载}}
@@ -777,12 +790,11 @@ B& B::operator=(const B &d) {
     \begin{block}{Shape类}
    \vspace{-3mm} \begin{lstlisting}[basicstyle=\footnotesize]
 class Shape {
-protected:
-    string m_name;
+protected:    string m_name;
 public:
     Shape(const string &s = ""):m_name(s) { }
     //虚函数
-    virtual double (*@{\alert{area}}@*)() const { return 0; }
+    (*@{\alert{virtual}}@*)  double (*@{\alert{area}}@*)() const { return 0; }
     const string& name() { return m_name; }
 };
     \end{lstlisting}\vspace{-2mm}\ttfamily
@@ -793,11 +805,11 @@ public:
     \begin{block}{Circle类}
     \vspace{-3mm}\begin{lstlisting}[basicstyle=\footnotesize]
 class Circle : public Shape {
-private:
-    double m_rad;
+private:    double m_rad;
 public:
     Circle(double r=0, const string &s = ""):Shape(s),m_rad(r) { }
-    double (*@{\alert{area}}@*)() const { return 3.1415926*m_rad*m_rad; }
+    double (*@{\alert{area}}@*)() const {
+        return 3.1415926*m_rad*m_rad; }
 };
     \end{lstlisting}\vspace{-2mm}\ttfamily
     \end{block}
@@ -820,15 +832,17 @@ public:
 \subsection{动态绑定}
 
 
-
 \begin{frame}[fragile]
     {9.3 虚函数与多态性\small{—动态绑定}}
     \begin{block}{动态绑定}
-    除需要重写基类的虚函数外，还必须用基类的指针或引用才能触发\alert{动态绑定}
+    除需要重写基类的虚函数外，还必须用\alert{基类的指针或引用}才能触发动态绑定
     \end{block}
-    \pause   
+    \pause
      \begin{block}{利用指针触发动态绑定}
      \vspace{-4mm}
+         \begin{tikzpicture}[overlay]
+      \draw[dashed,thin,blue] (8,0)--(8,-2.15);
+    \end{tikzpicture}
      \begin{columns}
      \column{0.5 \textwidth}
      \begin{lstlisting}[moreemph={Shape,Square,Circle}]
@@ -836,24 +850,43 @@ Shape sh, *p = &sh; //p指向Shape类对象
 Square sq(1.0);
 cout<<p->area()<<endl; //打印输出0
     \end{lstlisting}\ttfamily
+
     \column{0.45 \textwidth}
      \begin{lstlisting}[moreemph={Shape,Square,Circle}]
 p = &sq;       //p的动态类型为Square
 cout<<p->area(); //打印输出1.0
     \end{lstlisting}\ttfamily
      \end{columns}
-   
+
     \end{block}
-   
-     \pause 
+
+     \pause
       \begin{block}{利用引用触发动态绑定}\vspace{-3mm}
+      \begin{tikzpicture}[overlay]
+      \draw[dashed,thin,blue] (8,-1.1)--(8,-2.4);
+    \end{tikzpicture}
+
  \begin{lstlisting}[moreemph={Shape,Square,Circle}]
 bool operator>(const Shape &a, const Shape &b){return a.area()>b.area();}
+    \end{lstlisting}
+        \vspace{-4mm}
+    \begin{columns}
+     \column{0.5 \textwidth}
+     \begin{lstlisting}[moreemph={Shape,Square,Circle}]
 Shape *p = nullptr;
 Square sq(2.0);
 Circle ci(1.2);
-if(sq>ci)  p = &sq;
     \end{lstlisting}
+
+    \column{0.45 \textwidth}
+     \begin{lstlisting}[moreemph={Shape,Square,Circle}]
+if(sq>ci)
+    p = &sq;
+cout<<p->area()<<endl;
+    \end{lstlisting}
+     \end{columns}
+
+
     \vspace{-2mm}
     \end{block}
 
@@ -889,7 +922,7 @@ if(sq>ci)  p = &sq;
     \begin{itemize}[<+->]%<+(2)->
     \item 动态绑定必须通过基类\alert{指针}或\alert{引用}绑定到派生类对象才能触发。
     \item 派生类中与基类虚函数对应的重写版本\alert{自动为虚函数}，不必进行virtual声明。
-    \item \alert{内联成员、静态成员和模板成员}均不能声明为虚函数。
+    \item \alert{内联成员、静态成员和模板成员}均不能声明为虚函数\scalebox{1.5}{\Frowny{}}。
     \item 派生类版本的声明必须与基类版本的声明完全一致，包括\alert{函数名、形参列表和返回值类型}。
      \item 动态绑定的实现是有代价的，大量的虚函数会导致程序性能的下降。
     \end{itemize}
@@ -903,11 +936,11 @@ if(sq>ci)  p = &sq;
 \column{0.7\textwidth}
     \begin{block}{}
     \vspace{-3mm}\begin{lstlisting}[moreemph={Base,Derived}]
-class Base {
+class Base{
 public:
     virtual Base* foo() { cout << "Base" << endl; return this; }
 };
-class Derived : public Base {
+class Derived : public Base{
 public:
     Derived* foo() { cout << "Derived" << endl; return this; }
 };
@@ -1162,10 +1195,10 @@ cat.sounding();  //cat能正常的喵喵叫
     {9.3 虚函数与多态性\small{—再探计算器}}
     \begin{block}{定义运算符基类}
     把每一种运算符抽象成一个类，再把运算符的\alert{共有属性抽象}出来，形成一个公共基类Operator。运算符继承关系如下：
-    \end{block}\vspace{2em}
+    \end{block}
     \begin{figure}
     \centering
-    \includegraphics[width=30em]{Fig/Operator.png}
+    \includegraphics[width=\textwidth]{Fig/Operator.png}
     \end{figure}
 \end{frame}
 
@@ -1333,16 +1366,16 @@ double Calculator::doIt(const string &exp){
     {9.3 虚函数与多态性\small{—再探计算器}}
     \begin{block}{增加移动语义}
     由于unique\_ptr不支持复制操作，因此向前面章节定义的Node模板和Stack模板分别添加支持移动语义的构造函数和push函数：
-        \begin{lstlisting}[basicstyle=\normalsize\ttfamily,moreemph={Node, T,Stack}]
-        template<typename T>                // 含右值形参的移动构造函数
-        Node<T>::Node(T &&val) :m_value(std::move(val)) { }
+\begin{lstlisting}[basicstyle=\normalsize\ttfamily,moreemph={Node, T,Stack}]
+template<typename T>                // 含右值形参的移动构造函数
+Node<T>::Node(T &&val) :m_value(std::move(val)) { }
 
-        template<typename T>
-        void Stack<T>::push(T &&val) {       //含右值形参的push函数
-            Node<T> *node = new Node<T>(std::move(val));
-            node->m_next = m_top;
-            m_top = node;
-        }
+template<typename T>
+void Stack<T>::push(T &&val) {       //含右值形参的push函数
+    Node<T> *node = new Node<T>(std::move(val));
+    node->m_next = m_top;
+    m_top = node;
+}
 \end{lstlisting}
     \end{block}
 \end{frame}
