@@ -10,6 +10,7 @@ using namespace std;
 
 int main() {
 
+
 	{
 		//for (char c; (c = cin.get()) != '\n'; )
 		//	cout << c;
@@ -37,11 +38,14 @@ int main() {
 	}
 
 	{
-		double x = 1.2152;
+		int old_precision = cout.precision();
+		double x = 12.152;
 		cout.precision(3);
 		cout << "precision:" << cout.precision() << ", x=" << x << endl;
 		cout << setprecision(4);
 		cout << "precision:" << cout.precision() << ", x=" << x << endl;
+
+		cout.precision(old_precision);
 	}
 
 	{
