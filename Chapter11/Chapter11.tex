@@ -51,7 +51,7 @@ stringstyle=\color{brown},                                            % 设置�
 breaklines,                                                           % 控制是否折行
 postbreak=\space,                                                     % 控制折行后显示的标识字符
 breakindent=5pt,                                                      % 控制折行后缩进数量
-emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple,function,placeholders,std,nullptr,unique\_ptr}, % 非内置类型
+emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple,function,placeholders,std,nullptr,unique\_ptr, find, cout,for_each,sort,find_if,stable_sort,bind,fill, copy, accumulate,multimap,make_pair,advance,forward_list,swap,ref}, % 非内置类型
 emphstyle={\color{teal}},
 escapeinside={(*@}{@*)},
 %调整马德里的代码行号
@@ -59,7 +59,7 @@ escapeinside={(*@}{@*)},
 % xleftmargin=2em,
 % framexleftmargin=2em
 }
-
+\usepackage{tikz}
 \title[\textit{C++程序设计：第十一章}]{第十一章~标准模板库}
 
 %\author[李长河]{李长河} % Your name
@@ -1057,13 +1057,14 @@ auto it2 = s.find(10); //查找速度快
 	\begin{block}{只读型算法}
 		只是读取迭代器范围内的元素，不会改变元素的内容
 	\end{block}
+\vspace{-4mm}
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.67\textwidth}
 		\begin{blueblock}{只读算法案例1——find}
 			\begin{lstlisting}[moreemph={T}]
 vector<int> v = { 3, 7, 3, 11, 3, 3, 2 };
 auto it = find(v.begin(), v.end(), 10);
-cout << "10 is " << (it != v.end() ? "found" : "not found");
+cout << "10 is "<<(it != v.end() ? "found" : "not found");
             \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -1073,16 +1074,19 @@ cout << "10 is " << (it != v.end() ? "found" : "not found");
 	\end{columns}
 
 \begin{yellowblock}{说明}
-	$\bullet$ 前两个参数为迭代器范围，第三个参数为待搜索值\\
+
+  $\bullet$ 前两个参数为迭代器范围，第三个参数为待搜索值\\
 	$\bullet$ 它从开始位置\alert{依次}将每个元素与给定值比较\\
 	$\bullet$ 如找到，返回\alert{第一个}与给定值相等的元素的迭代器\\
 	$\bullet$ 否则返回\alert{第二个参数}表示搜索失败
+
+	
 \end{yellowblock}
 \end{frame}
 
 \begin{frame}[fragile]{11.3~泛型算法\small{——算法概述}}
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.6\textwidth}
 		\begin{blueblock}{只读算法案例2——accumulate}
 			\begin{lstlisting}[moreemph={T}]
 int sum = accumulate(v.begin(), v.end(), 0);
@@ -1095,7 +1099,7 @@ string s1 = accumulate(vs.begin(), vs.end(), string()); //正确
 string s2 = accumulate(vs.begin(), vs.end(), ""); //错误
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.35\textwidth}
 		\begin{block}{accumulate函数}
 			计算特定范围内元素的和
 		\end{block}
@@ -1119,7 +1123,7 @@ string s2 = accumulate(vs.begin(), vs.end(), ""); //错误
 	\end{block}
 \vspace{-3mm}
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.6\textwidth}
 		\begin{blueblock}{写入型算法案例——fill}
 			\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
 vector<int> v1(10),v2(15);
@@ -1127,7 +1131,7 @@ fill(v1.begin(), v1.end(), 1); //将容器v1中所有元素重置为1
 copy(v1.begin(), v1.end(), v2.begin()); //将v1中的元素复制到v2中
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.35\textwidth}
 		\begin{block}
 			{fill函数}
 			将\alert{给定值}写入到\alert{指定范围}
@@ -1150,7 +1154,7 @@ copy(v1.begin(), v1.end(), v2.begin()); //将v1中的元素复制到v2中
 	\end{block}
 \vspace{-3mm}
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.60\textwidth}
 		\begin{blueblock}{重排型算法案例1——sort}
 			\begin{lstlisting}[moreemph={T}]
 vector<int> v = { 3, 7, 3, 11, 3, 3, 2 };
@@ -1162,14 +1166,14 @@ sort(v.begin(), v.end()); //升序排序
 stable_sort(v.begin(), v.end());
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.35\textwidth}
 		\begin{block}
 			{sort函数}
 			使输入序列中的元素有序，默认的元素比较方式为<运算符
 		\end{block}
 		\begin{block}
 			{stable\_sort函数}
-			与sort函数作用相同，但会\alert{保持相等元素的相对位置}
+			与sort函数作用相同，但会\alert{保持相同元素的相对位置}
 		\end{block}
 	\end{columns}
 	\begin{redblock}{注意}
@@ -1191,15 +1195,15 @@ struct LargeData {
     bool operator<(const LargeData rhs) {
         return m_id < rhs.m_id; //比较对象的id
     }//其它成员与11.2.4节相同
-};            \end{lstlisting}
+};            \end{lstlisting}\vspace{-2mm}
 		\end{blueblock}
-		\begin{blueblock}{重排型算法案例3——sort}
+		\begin{blueblock}{重排型算法案例3——sort}\vspace{-2mm}
 			\begin{lstlisting}[moreemph={LargeData}]
 vector<LargeData> vo;
 for (int i = 0; i < 50000; i++)
     vo.emplace_back(rand() % 1000000);
 sort(vo.begin(), vo.end()); //按元素id的升序排序
-            \end{lstlisting}
+            \end{lstlisting}\vspace{-2mm}
 		\end{blueblock}
 		\column{0.3\textwidth}
 		\begin{yellowblock}
@@ -1261,7 +1265,7 @@ sort(vp.begin(), vp.end(), Less);
 \begin{frame}[fragile]{11.3~泛型算法\small{——向算法传递函数}}
 	我们还可以向算法传递一个函数对象\\
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.6\textwidth}
 		\begin{blueblock}{使用函数对象——定义类型}
 			\begin{lstlisting}[moreemph={LargeData}]
 struct Compare {
@@ -1276,7 +1280,7 @@ struct Compare {
 sort(vp.begin(), vp.end(), Compare());
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.35\textwidth}
 		\begin{yellowblock}
 			{说明}
 			$\bullet$ 上方代码为Compare类定义一个函数调用运算符，形参和功能与Less函数一样\\
@@ -1316,20 +1320,18 @@ auto i=find_if(v.begin(),v.end(),Checker(4));//返回第4个元素的迭代器
 \end{frame}
 
 \begin{frame}[fragile]{11.3~泛型算法\small{——向算法传递函数}}
-	一个lambda表达式为一个\alert{可调用的代码单元}，因此也可以向算法传递一个lambda表达式：\\
+一个lambda表达式为一个\alert{可调用的代码单元}，因此可以向算法传递lambda表达式
 	% \begin{columns}[T]
 	% 	\column{0.65\textwidth}
 	\begin{blueblock}{使用lambda表达式}
 		\begin{lstlisting}[moreemph={T,LargeData}]
-sort(vp.begin(), vp.end(),
-  [](const LargeData *a, const LargeData *b) {return a->m_id < b->m_id;});
+sort(vp.begin(), vp.end(), [](const LargeData *a, const LargeData *b) {return a->m_id < b->m_id;});
             \end{lstlisting}
 	\end{blueblock}
 	% \column{0.3\textwidth}
 	\begin{yellowblock}
 		{说明}
-		$\bullet$ lambda表达式捕获列表为空\\
-		$\bullet$ 函数形参为两个指针类型\\
+		$\bullet$ lambda表达式捕获列表为空, 函数形参为两个指针类型\\
 		$\bullet$ 函数体与Less函数和Compare函数调用运算符一样\\
 	\end{yellowblock}
 	% \end{columns}
@@ -1344,7 +1346,7 @@ sort(vp.begin(), vp.end(),
 
 \subsection{参数绑定}
 \begin{frame}[fragile]{11.3~泛型算法\small{——参数绑定*}}
-	有些标准库算法\alert{只接受一个包含一个参数的调用对象}，但有时候我们想要\alert{传递给算法的函数包含两个参数}。比如，我们希望通过filter函数将容器中小于一个给定值的元素设置为0
+	有些标准库算法\alert{只接受一个包含一个参数的调用对象}，但有时候需要\alert{传递给算法的函数包含两个参数}。比如，通过filter函数将容器中小于一个给定值的元素设置为0
 	\begin{blueblock}{\texttt{filter}函数}
 		\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
 void filter(int &a, int n) {
@@ -1357,7 +1359,7 @@ void filter(int &a, int n) {
 	\begin{columns}[T]
 		\column{0.65\textwidth}
 		\begin{blueblock}{\texttt{filter}函数}
-			\vspace{-3mm}\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
+			\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
 vector<int> vi = { 3, 7, 1, 11, 3, 3, 2 };
 int n = 3;
 for_each(vi.begin(), vi.end(), [n](int &i) { i = (i < n ? 0 : i);});
@@ -1376,15 +1378,15 @@ for_each(vi.begin(), vi.end(), [n](int &i) { i = (i < n ? 0 : i);});
 \end{frame}
 
 \begin{frame}[fragile]{11.3~泛型算法\small{——参数绑定*}}
-	如果我们依然坚持用filter函数代替lambda表达式，我们可以使用标准库bind
+	如果坚持用filter函数代替lambda表达式，可以使用标准库bind函数
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.55\textwidth}
 		\begin{blueblock}{\texttt{bind}使用格式}
 			\begin{lstlisting}[moreemph={T}]
 auto newFun = bind (fun, arg_list);
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.4\textwidth}
 		\begin{block}
 			{bind函数}
 			bind函数接受一个可调用对象，生成一个新的可调用对象来仿造原调用对象的参数列表。\\
@@ -1426,21 +1428,21 @@ for_each(vi.begin(), vi.end(), uf);
 \begin{frame}[fragile]{11.3~泛型算法\small{——参数绑定*}}
 	默认情况下，bind函数中\alert{不是占位符的参数}将以\alert{拷贝}的方式传递给可调用对象。如果需要\alert{传递引用}，可以使用标准库函数\textbf{ref}：
 	\begin{columns}[T]
-		\column{0.65\textwidth}
+		\column{0.6\textwidth}
 		\begin{blueblock}{使用bind——传递引用}
 			\begin{lstlisting}[moreemph={T}]
 void sum(int a, int &s){
-s += a;
+    s += a;
 }
             \end{lstlisting}
 		\end{blueblock}
 		\begin{blueblock}{使用bind——传递引用}
 			\begin{lstlisting}[moreemph={T}]
 int s = 0; //保存累加和
-for_each(vi.begin(), vi.end(), bind(sum, std::placeholders::_1, ref(s)));
+for_each(vi.begin(), vi.end(), bind(sum, std::placeholders::_1, std::ref(s)));
             \end{lstlisting}
 		\end{blueblock}
-		\column{0.3\textwidth}
+		\column{0.35\textwidth}
 		\begin{yellowblock}
 			{说明}
 			$\bullet$ sum将第一个函数的值累加到与形参s绑定的实参中\\
@@ -1448,7 +1450,7 @@ for_each(vi.begin(), vi.end(), bind(sum, std::placeholders::_1, ref(s)));
 		\end{yellowblock}
 		\begin{redblock}
 			{提示}
-			标准库提供类似ref的cref函数，其返回包含\alert{const引用类型}的对象
+			标准库functional提供类似ref的cref函数，其返回包含\alert{const引用类型}的对象
 		\end{redblock}
 	\end{columns}
 \end{frame}
@@ -1501,12 +1503,13 @@ bind(Less, std::placeholders::_2, std::placeholders::_1);
 		\end{blueblock}
 		\begin{blueblock}{使用function对象}
             \vspace{-2mm}
+            \begin{tikzpicture}[overlay]
+              \draw[red,dashed, line width=1pt] (4.7,-0.7)--(4.7,-1.5);
+            \end{tikzpicture}
 			\begin{lstlisting}[moreemph={T}]
 LargeData a(0), b(1);
-if (f1(&a, &b)) {/*...*/}
-if (f2(&a, &b)) {/*...*/}
-if (f3(&a, &b)) {/*...*/}
-if (f4(&a, &b)) {/*...*/}
+if (f1(&a, &b)) {/*...*/}           if (f2(&a, &b)) {/*...*/}
+if (f3(&a, &b)) {/*...*/}           if (f4(&a, &b)) {/*...*/}
                 \end{lstlisting}
             \vspace{-2mm}
 		\end{blueblock}
