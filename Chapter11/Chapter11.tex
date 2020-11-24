@@ -337,10 +337,10 @@ vector<string> vs;
 	\begin{blueblock}{cbegin和cend}
 		\begin{lstlisting}[basicstyle=\small\ttfamily]
 vector<int> vec = {0, 1, 2, 3, 4};
-auto it1 = vec.begin(); //返回第一个元素的迭代器
-auto it2 = vec.cbegin(); //返回第一个元素的const迭代器
-*it1 = 4; //正确：修改第一个元素的值
-*it2 = 5; //错误：it2为const 迭代器，不允许修改指向的对象
+auto it1 = vec.begin();         //返回第一个元素的迭代器
+auto it2 = vec.cbegin();        //返回第一个元素的const迭代器
+*it1 = 4;                       //正确：修改第一个元素的值
+*it2 = 5;                       //错误：it2为const 迭代器，不允许修改指向的对象
                 \end{lstlisting}
 	\end{blueblock}
 	\begin{yellowblock}
@@ -356,8 +356,8 @@ auto it2 = vec.cbegin(); //返回第一个元素的const迭代器
 		\begin{blueblock}{vector的插入和删除数据操作}
 			\begin{lstlisting}[basicstyle=\small\ttfamily]
 vector<int> vec = {0, 1, 2, 3, 4};
-vec.insert(vec.begin(),10); //在首部插入10
-vec.erase(vec.begin()+1); //删除vec中第二个元素
+vec.insert(vec.begin(),10);     //在首部插入10
+vec.erase(vec.begin()+1);       //删除vec中第二个元素
                     \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -390,10 +390,10 @@ struct Foo{
 	\begin{blueblock}{emplace与insert成员用法区别}
 		\begin{lstlisting}[moreemph={T}]
 vector<Foo> vf;
-vf.push_back(Foo("Lisha", 12)); //将临时对象移到容器的末尾
-vf.insert(vf.begin(),Foo("Mandy", 13)); //将临时对象移到容器的开始位置
-vf.emplace_back("Kevin", 11); //在容器的末尾新增一个元素
-vf.emplace(vf.begin(),"Rosieta", 10); //在容器的首部插入一个元素
+vf.push_back(Foo("Lisha", 12));                 //将临时对象移到容器的末尾
+vf.insert(vf.begin(),Foo("Mandy", 13));         //将临时对象移到容器的开始位置
+vf.emplace_back("Kevin", 11);                   //在容器的末尾新增一个元素
+vf.emplace(vf.begin(),"Rosieta", 10);           //在容器的首部插入一个元素
                 \end{lstlisting}
 	\end{blueblock}
 \pause
@@ -409,8 +409,8 @@ vf.emplace(vf.begin(),"Rosieta", 10); //在容器的首部插入一个元素
 		\column{0.65\textwidth}
 		\begin{blueblock}{swap操作交换两个相同类型容器的数据}
 			\begin{lstlisting}[moreemph={T}]
-vector<int> v1 = {0, 1}; //2个元素的vector
-vector<int> v2 = {0, 1, 2, 3}; //4个元素的vector
+vector<int> v1 = {0, 1};            //2个元素的vector
+vector<int> v2 = {0, 1, 2, 3};      //4个元素的vector
 swap(v1, v2);
                     \end{lstlisting}
 		\end{blueblock}
@@ -452,8 +452,8 @@ swap(v1, v2);
 array<int, 4> arr = {1,2,3,4};
 for (auto it = arr.begin(); it != arr.end(); ++it)
 cout << *it << endl;
-array<int, 4> arr2 = arr; //array对象允许复制
-arr2.fill(0); //所有元素赋值为0
+array<int, 4> arr2 = arr;       //array对象允许复制
+arr2.fill(0);                   //所有元素赋值为0
                     \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -472,9 +472,9 @@ arr2.fill(0); //所有元素赋值为0
 		\begin{blueblock}{使用deque}
 			\begin{lstlisting}[moreemph={T}]
 deque<int> dq = {1,2,3};
-dq.push_back(4); //尾部插入一个元素
-dq.push_front(0); //首部插入一个元素
-cout << dq[3]<< endl; //随机访问
+dq.push_back(4);            //尾部插入一个元素
+dq.push_front(0);           //首部插入一个元素
+cout << dq[3]<< endl;       //随机访问
             \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -496,10 +496,10 @@ cout << dq[3]<< endl; //随机访问
 		\begin{blueblock}{使用forward\_list}
 			\begin{lstlisting}[moreemph={T}]
 forward_list<int> flst = { 2, 3 };
-flst.push_front(1); //在flst首部插入数据
+flst.push_front(1);                         //在flst首部插入数据
 flst.insert_after(flst.before_begin(), 0); //同上
 for (auto it = flst.begin(); it != flst.end(); ++it)
-    cout << *it << " "; //打印输出：0 1 2 3
+    cout << *it << " ";                     //打印输出：0 1 2 3
             \end{lstlisting}
 		\end{blueblock}
 		使用distance函数获取forward\_list中的元素数目：
@@ -525,13 +525,13 @@ cout << "size: " <<
 	\begin{blueblock}{使用list}
 		\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
 list<int> lst1 = {2,3}, lst2 = {1};
-lst1.push_back(5); //在lst1的尾部插入元素5
-lst2.push_front(0); //在lst2的首部插入元素0
-auto pos = find(lst1.begin(),lst1.end(),5);//找到指向元素5的迭代器
-lst1.insert(pos, 4);//在此位置插入元素4
-lst1.splice(lst1.begin(), lst2); //将lst2插入到lst1中第1个元素位置
+lst1.push_back(5);                                  //在lst1的尾部插入元素5
+lst2.push_front(0);                                 //在lst2的首部插入元素0
+auto pos = find(lst1.begin(),lst1.end(),5);         //找到指向元素5的迭代器
+lst1.insert(pos, 4);                                //在此位置插入元素4
+lst1.splice(lst1.begin(), lst2);                    //将lst2插入到lst1中第1个元素位置
 for (auto it = lst1.begin(); it != lst1.end(); ++it)
-    cout << *it << " "; //打印输出：0 1 2 3 4 5
+    cout << *it << " ";                             //打印输出：0 1 2 3 4 5
             \end{lstlisting}\vspace{-2.5mm}
 	\end{blueblock}
 	\begin{yellowblock}{说明}
@@ -574,10 +574,10 @@ lst1.splice(lst1.end(), lst3, lst3.begin(),it);
 		\item 如果仅在读取输入的数据时在容器的中间位置插入元素，数据输入完毕之后仅需要随机访问，则可考虑在输入时将元素读入到一个list 容器中，然后对此容器使用sort函数排序，最后将排序后的list复制到一个vector容器中。
 		\item 如果程序既需要随机访问又必须在容器的中间位置插入或删除元素，那么我们需要比较随机访问list 和在vector 中间插入或删除元素时移动元素的代价。
 	\end{itemize}
-%	\begin{redblock}
-%		{注意}
-%		如果无法确定某种应用应该采用哪种容器，则编写代码时尝试\alert{只使用vector和list容器都提供的操作}，方便以后进行转换。
-%	\end{redblock}
+	\begin{redblock}<6->
+		{注意}
+		如果无法确定某种应用应该采用哪种容器，则编写代码时尝试\alert{只使用vector和list容器都提供的操作}，方便以后进行转换。
+	\end{redblock}
 \end{frame}
 
 \subsection{关联容器}
@@ -594,7 +594,7 @@ lst1.splice(lst1.end(), lst3, lst3.begin(),it);
 \begin{frame}[fragile]{11.2~容器\small{——关联容器}}
 	\begin{block}
 		{set}
-		\alert{每个元素只包含一个关键字}，与数学上的\alert{集合}类似，set\alert{不包含重复的元素}，且都是有序的
+		\alert{每个元素只包含一个关键字}，与数学上的集合类似，set\alert{不包含重复的元素}，且都是\alert{有序}的
 	\end{block}
 	\begin{greenblock}
 		{例11.1}
@@ -607,11 +607,11 @@ lst1.splice(lst1.end(), lst3, lst3.begin(),it);
 			\vspace{-3mm}\begin{lstlisting}[moreemph={T}]
 set<int> counter; //创建一个关键字类型为int的空set对象
 int number;
-while (cin>>number) //输入数字
-    counter.insert(number); //将输入的数字插入到set中
+while (cin>>number)             //输入数字
+    counter.insert(number);     //将输入的数字插入到set中
 cout << "不同的数字的个数：" << counter.size() << endl;//获取元素个数
-for (auto &i : counter) //遍历每个元素
-    cout << i << " "; //输出每个元素
+for (auto &i : counter)         //遍历每个元素
+    cout << i << " ";           //输出每个元素
             \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -631,17 +631,17 @@ for (auto &i : counter) //遍历每个元素
 		\begin{blueblock}{find查找set中元素}
 			\begin{lstlisting}[moreemph={T}]
 vector<int> v = { 1, 8, 4, 2, 0, 1, 4, 3, 5, 4, 7 };
-set<int> s(v.begin(), v.end()); //利用vector创建set
-auto it = s.find(0); //查找关键字为0的元素
+set<int> s(v.begin(), v.end());     //利用vector创建set
+auto it = s.find(0);                //查找关键字为0的元素
             \end{lstlisting}
 		\end{blueblock}
 		\begin{blueblock}{erase删除set中元素}
 			\begin{lstlisting}[moreemph={T}]
-s.erase(it); //删除关键字为0的元素
-s.erase(s.find(3), s.find(7)); //删除范围[3,7)内元素
+s.erase(it);                        //删除关键字为0的元素
+s.erase(s.find(3), s.find(7));      //删除范围[3,7)内元素
 for (auto &i : s)
-    cout << i << " "; //打印输出：1 2 7 8
-        \end{lstlisting}
+    cout << i << " ";               //打印输出：1 2 7 8
+        \end{lstlisting}    
 		\end{blueblock}
 		\column{0.3\textwidth}
 		\begin{yellowblock}{说明}
@@ -662,10 +662,10 @@ for (auto &i : s)
 	\end{block}
 	\begin{blueblock}{使用pair}
 		\begin{lstlisting}[moreemph={T}]
-pair<int, int> p1; //保存两个int类型数据
-pair<string, int> p2 = {"Hello", 0}; //列表初始化两个成员
-auto p3 = make_pair("Hello", 1); //make_pair函数返回一个pair对象
-cout << p2.first << p2.second << endl; //访问pair中数据成员
+pair<int, int> p1;                              //保存两个int类型数据
+pair<string, int> p2 = {"Hello", 0};            //列表初始化两个成员
+auto p3 = make_pair("Hello", 1);                //make_pair函数返回一个pair对象
+cout << p2.first << p2.second << endl;          //访问pair中数据成员
     \end{lstlisting}
 	\end{blueblock}
 	\begin{yellowblock}{说明}
@@ -703,7 +703,7 @@ for (auto &i : counter) //遍历map 中每个元素
 		\end{block}
 		\only<1>{\begin{yellowblock}{说明}
 				$\bullet$ 下标运算用来获取与关键字关联的值\\
-				$\bullet$ 执行第四行代码时，如找到关键字对应元素则其值自增，否则以此关键字生成新的元素\\
+				$\bullet$ 如找到关键字对应元素则其值自增，否则以此关键字生成新的元素\\
 			\end{yellowblock}}
 		\only<2->{\begin{redblock}{注意}
 				由于下标运算可能会插入新元素。因此，它只能作用于\alert{非const的map对象}\\
@@ -724,8 +724,8 @@ counter.insert(make_pair(3, 0));
 		\begin{blueblock}{检测插入是否成功}
 			\begin{lstlisting}[moreemph={T}]
 auto res=counter.insert(pair<int, int>(2,0));//自动推导res的类型
-if (!res.second) //关键字2已经存在
-    ++res.first->second; //关键字为2的元素的值自增
+if (!res.second)                //关键字2已经存在
+    ++res.first->second;        //关键字为2的元素的值自增
         \end{lstlisting}
 		\end{blueblock}
 		\column{0.3\textwidth}
@@ -771,9 +771,9 @@ for (auto &i : contact)
 auto entries = contact.count("Kevin");
 auto it = contact.find("Kevin");
 while (entries) {
-    cout << it->second << endl; //打印电话号码
-    ++it; //移动到下一个记录
-    --entries; //计数器自减
+    cout << it->second << endl;         //打印电话号码
+    ++it;                               //移动到下一个记录
+    --entries;                          //计数器自减
 }
             \end{lstlisting}
             \vspace{-3mm}
@@ -862,16 +862,16 @@ reverse(vp.begin(), vp.end()); //翻转指针
 	%     \column{0.65\textwidth}
 	\begin{blueblock}{在容器中存放unique\_ptr}
 		\begin{lstlisting}[moreemph={LargeData}]
-vector<unique_ptr<LargeData>> vsp; //定义一个存放unique_ptr的vector
-vp.push_back(make_unique<LargeData>(1)); //make_unique为C++14标准
-vp.push_back(std::move(unique_ptr<LargeData>(new LargeData(2))));
-vp.emplace_back(new LargeData(3));
+vector<unique_ptr<LargeData>> vsp;              //定义一个存放unique_ptr的vector
+vsp.push_back(make_unique<LargeData>(1));        //make_unique为C++14标准
+vsp.push_back(std::move(unique_ptr<LargeData>(new LargeData(2))));
+vsp.emplace_back(new LargeData(3));
             \end{lstlisting}
 	\end{blueblock}
 	% \column{0.3\textwidth}
 	\begin{yellowblock}{说明}
-		$\bullet$ 第三条语句使用move函数将一个临时对象移动到vp的尾部\\
-		$\bullet$ 第四条语句使用emplace函数在vp的尾部直接构造一个对象。\\
+		$\bullet$ 第三条语句使用move函数将一个临时对象移动到vsp的尾部\\
+		$\bullet$ 第四条语句使用emplace函数在vsp的尾部直接构造一个对象。\\
 	\end{yellowblock}
 	% \end{columns}
 	\pause
