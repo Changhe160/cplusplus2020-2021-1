@@ -252,7 +252,7 @@ int main() {
 		cout << title << " " << price <<" "<< year << endl;
 	}
 	{
-	/*	
+		
 		struct LargeData {
 			LargeData(int id): m_id(id){}
 			int m_id;
@@ -294,7 +294,7 @@ int main() {
 		sort(vp.begin(), vp.end(), [](const LargeData *a, const LargeData *b) {return a->m_id > b->m_id; });
 		//reverse(vp.begin(), vp.end());
 		auto t6 = std::chrono::high_resolution_clock::now();
-		cout << chrono::duration_cast<chrono::milliseconds>(t6 - t5).count() << endl;*/
+		cout << chrono::duration_cast<chrono::milliseconds>(t6 - t5).count() << endl;
 	}
 	
 	{

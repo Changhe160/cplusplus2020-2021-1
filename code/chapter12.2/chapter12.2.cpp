@@ -61,6 +61,7 @@ struct MyException :public exception {
 };
 
 int main() {
+
 	try {
 		throw MyException();
 	}
