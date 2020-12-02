@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     Reader reader;
     //QObject::connect(&newspaper,SIGNAL(newPaper(QString,QDate)),&reader,SLOT(receiveNewspaper(QString,QDate)));
     QObject::connect(&newspaper,&Newspaper::newPaper,&reader,&Reader::receiveNewspaper);
+
     newspaper.send();
 
     return app.exec();
