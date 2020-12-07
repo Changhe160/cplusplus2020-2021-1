@@ -168,7 +168,7 @@ void Snake::timerEvent(QTimerEvent *e) {
         move();
     }
 
-    //repaint();
+    repaint();
     //update();
 }
 

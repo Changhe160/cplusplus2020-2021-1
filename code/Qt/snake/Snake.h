@@ -24,7 +24,7 @@ class Snake : public QWidget {
       static const int DOT_SIZE = 10;
       static const int ALL_DOTS = 900;
       static const int RAND_POS = 29;
-      static const int DELAY = 140;
+      static const int DELAY = 500; //140
 /*The B_WIDTH and B_HEIGHT constants determine the size of the board.
  * The DOT_SIZE is the size of the apple and the dot of the snake. The
  * ALL_DOTS constant defines the maximum number of possible dots on the
