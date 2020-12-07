@@ -7,10 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle("Simple Menu");
-    QAction *action_quit = new QAction(QIcon(":/images/icons/quit"),"&Quit",this);
-    //QAction *action_quit = new QAction("&Quit",this);
+    QAction *action_quit = new QAction(QIcon(":/images/icons/quit.png"),"&Quit",this);
+   // QAction *action_quit = new QAction("&Quit",this);
 
-    action_quit->setShortcut(QKeySequence::Quit);
     action_quit->setStatusTip("quit app");
 
     QMenu *menu_file=menuBar()->addMenu("&File");
@@ -21,8 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(action_quit,&QAction::triggered,qApp, &QApplication::quit);
 
-    QAction *action_open =new QAction(QIcon(":/images/icons/open"),tr("&Open"),this);
+    QAction *action_open =new QAction(QIcon(":/images/open"),tr("&Open"),this);
     //QAction *action_open =new QAction(tr("&Open"),this);
+   // action_open->setShortcut(QKeySequence::Open);
+    action_open->setShortcut(QKeySequence(tr("Ctrl+O")));
     menu_file->addAction(action_open);
     toolbar->addAction(action_open);
     connect(action_open,&QAction::triggered,this, &MainWindow::open);

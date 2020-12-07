@@ -12,20 +12,20 @@
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
-     hbox = new QHBoxLayout(this);
-     hbox->setSpacing(5);
+     m_hbox = new QHBoxLayout(this);
+     m_hbox->setSpacing(5);
 
-     label = new QLabel("", this);
-     hbox->addWidget(label, 0, Qt::AlignLeft | Qt::AlignTop);
-     button=new QPushButton("PushButton",this);
+     m_label = new QLabel("", this);
+     m_hbox->addWidget(m_label, 0, Qt::AlignLeft | Qt::AlignTop);
 
-     hbox->addWidget(button,0,Qt::AlignLeft | Qt::AlignTop);
+     m_button=new QPushButton("PushButton",this);
+     m_hbox->addWidget(m_button,0,Qt::AlignLeft | Qt::AlignTop);
 
-     connect(button,&QPushButton::clicked,this,&Widget::onButtonCliecked);
+     connect(m_button,&QPushButton::clicked,this,&Widget::onButtonCliecked);
 
      QTime qtime = QTime::currentTime();
      QString stime = qtime.toString();
-     label->setText(stime);
+     m_label->setText(stime);
 
      startTimer(1000);
 
@@ -33,9 +33,9 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
-    delete label;
-    delete button;
-    delete hbox;
+    delete m_label;
+    delete m_button;
+    delete m_hbox;
 }
 
 void Widget::onButtonCliecked()
@@ -69,5 +69,5 @@ void Widget::timerEvent(QTimerEvent *e) {
 
   QTime qtime = QTime::currentTime();
   QString stime = qtime.toString();
-  label->setText(stime);
+  m_label->setText(stime);
 }

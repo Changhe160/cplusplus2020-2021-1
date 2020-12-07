@@ -1,5 +1,5 @@
 %!TEX program = xelatex
-\documentclass[UTF8,aspectratio=169,10pt,t]{ctexbeamer}
+\documentclass[UTF8,aspectratio=169,11pt,t]{ctexbeamer}
 
 \mode<presentation> {
 \usetheme{Madrid}
@@ -107,7 +107,7 @@ escapeinside={(*@}{@*)},
         \column{0.5\textwidth}
         \pause \centering \includegraphics[width=0.66\textwidth]{fig/fig1} \vspace{-2.3mm}
    \begin{block}{跨平台}
- 桌面OS：Windows， Linux， Mac; 移动OS：iOS， Android，WP; 嵌入式OS： QNX，VxWorks
+ 桌面：Windows， Linux， Mac; 移动：iOS， Android，WP; 嵌入式： QNX，VxWorks
   \end{block}
   \column{0.45\textwidth}
    \pause
@@ -133,7 +133,7 @@ escapeinside={(*@}{@*)},
 	\pause
 	\begin{block}{在线教程}
 		\begin{itemize}
-			\item Qt 学习之路: 
+			\item Qt 学习之路:
 \begin{itemize}
   \item \url{https://www.w3cschool.cn/learnroadqt/}
   \item \url{https://www.devbean.net/2012/08/qt-study-road-2-catelog/}
@@ -254,15 +254,34 @@ escapeinside={(*@}{@*)},
 \begin{frame}{2~Qt基础}
 		(7) 事件(event)
 				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{fig/event_process.png}\\ \vspace{2mm}
+\visible<2->{\includegraphics[width=0.8\textwidth]{fig/event_queue.png}}
+				\end{figure}
+	\end{frame}
+
+\begin{frame}{2~Qt基础}
+		(7) 事件(event)
+				\begin{figure}
 					\includegraphics[width=0.75\textwidth]{fig/event.pdf}
 				\end{figure}
 	\end{frame}
 
 \begin{frame}{2~Qt基础}
 		(7) 事件(event)-示例
+\begin{columns}
+\column{0.6\textwidth}
 				\begin{figure}
-					\includegraphics[width=0.5\textwidth]{fig/event.png}
+					\includegraphics[width=0.8\textwidth]{fig/event.png}
 				\end{figure}
+\column{0.35\textwidth}
+\begin{yellowblock}<2->{说明}
+\begin{itemize}
+ \item 事件不能等同于消息和槽机制
+  \item 事件在组件层面上传播，而不是通过继承机制
+  \item 通过事件过滤器接受相应事件或继续转发事件
+\end{itemize}
+\end{yellowblock}
+\end{columns}
 \end{frame}
 \subsection{模型/视图结构}
 \begin{frame}{2~Qt基础}
@@ -273,9 +292,13 @@ escapeinside={(*@}{@*)},
 \end{frame}
 \begin{frame}{2~Qt基础}
 	(8) 模型/视图结构(Model/View)-示例
-			\begin{figure}
-				\includegraphics[width=0.5\textwidth]{fig/table_view.png}
-			\end{figure}
+\begin{center}
+ \begin{tabular}{cc}
+            \includegraphics[width=0.55\textwidth]{fig/model_intro.png}&
+			 \visible<2->{\includegraphics[width=0.4\textwidth]{fig/table_view.png}}
+			\end{tabular}
+\end{center}
+			
 \end{frame}
 
 \section{示例}

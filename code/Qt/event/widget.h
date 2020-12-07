@@ -17,9 +17,9 @@ protected:
     void keyPressEvent(QKeyEvent * e);
     void timerEvent(QTimerEvent *e);
 private:
-     QLabel *label;
-     QPushButton *button;
-     QHBoxLayout *hbox;
+     QLabel *m_label;
+     QPushButton *m_button;
+     QHBoxLayout *m_hbox;
 private slots:
     void onButtonCliecked();
 };
