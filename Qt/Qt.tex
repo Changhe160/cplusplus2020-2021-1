@@ -1,5 +1,5 @@
 %!TEX program = xelatex
-\documentclass[UTF8,aspectratio=169,11pt,t]{ctexbeamer}
+\documentclass[aspectratio=169,UTF8,11pt,t]{ctexbeamer}
 
 \mode<presentation> {
 \usetheme{Madrid}
@@ -7,14 +7,10 @@
 \setbeamercolor{page number in head/foot}{fg=blue} %设置页码颜色
 \setbeamertemplate{navigation symbols}{} %去除控件
 }
-\usepackage{indentfirst}
-\setlength{\parindent}{2em}
+
 \usepackage{listings}
-\usepackage{wrapfig}
 \usepackage{graphicx}
-%设置图片存放路径
-\graphicspath{{figures/}}
-\usepackage{multicol} %多列布局
+
 
 %用户自定义区块环境
 \usepackage{setspace}
@@ -67,19 +63,27 @@ escapeinside={(*@}{@*)},
 
 \date{}
 
- \institute
-     {中国地质大学（武汉）自动化学院}
+ \institute{中国地质大学（武汉）自动化学院}
 
 
 \begin{document}
+	
+	\begin{frame}
+		\titlepage % Print the title page as the first slide
+	\end{frame}
+	
+	\begin{frame}{目录}
+		\begin{center}
+\begin{columns}[t]
+\column{0.4\textwidth}
+\tableofcontents[sections={1-2}]
+\column{0.4\textwidth}
+\tableofcontents[sections={3-4}]
+\end{columns}
+\end{center}
+	\end{frame}
 
-\maketitle
-
-\begin{frame}{目录}
-\tableofcontents
-\end{frame}
-
-\begin{frame} {前言}
+\begin{frame}[fragile]{~}
     \begin{yellowblock}{学习目标}
         \begin{enumerate}
             \item 掌握Qt开发环境的基本使用
@@ -330,6 +334,7 @@ escapeinside={(*@}{@*)},
 \end{frame}
 
 \section{后记}
+\subsection{C++程序设计总结}
 \begin{frame}{4~后记}
 
 \begin{columns}[T]
@@ -370,8 +375,8 @@ C++能够自由的让你放弃某些部分，而别的语言会阻止你放弃�
 \end{block}
 \end{frame}
 
+\subsection{推荐书籍}
 \begin{frame}{4~后记}
-
 \begin{block}{推荐C++书籍}
 \begin{itemize}
 \item  层级一：语法/语意(C++)
@@ -398,7 +403,7 @@ by Erich Gamma,Richard Helm,Ralph Johnson,and John Vlissides
 \end{block}
 
 \end{frame}
-
+\subsection{编程能力}
 \begin{frame}{4~后记}
 \vspace{2cm}
 \begin{center}
@@ -412,8 +417,8 @@ by Erich Gamma,Richard Helm,Ralph Johnson,and John Vlissides
 
 \end{frame}
 
+\subsection{寄语}
 \begin{frame}{4~后记}
-
 \vspace{3.5cm}
 \begin{center}
 {\huge \color{blue} AI之路漫漫其修远兮，吾将上下而求索}
