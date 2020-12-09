@@ -1,18 +1,31 @@
-%!TEX program = xelatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
 \documentclass[aspectratio=169,UTF8,11pt,t]{ctexbeamer}
 
 \mode<presentation> {
-\usetheme{Madrid}
-\setbeamertemplate{footline}[frame number] %设置页码
-\setbeamercolor{page number in head/foot}{fg=blue} %设置页码颜色
-\setbeamertemplate{navigation symbols}{} %去除控件
+	\usetheme{Madrid}
+	\setbeamertemplate{footline}{} % To remove the footer line in all slides
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides
 }
 
-\usepackage{listings}
-\usepackage{graphicx}
+% User Defined Block %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multirow}
 
-
-%用户自定义区块环境
 \usepackage{setspace}
 \definecolor{hanblue}{rgb}{0.27, 0.42, 0.81}
 \definecolor{indiagreen}{rgb}{0.07, 0.53, 0.03}
@@ -20,40 +33,46 @@
 \definecolor{indianyellow}{rgb}{0.89, 0.66, 0.34}
 \definecolor{babypink}{rgb}{0.96, 0.76, 0.76}
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
-% \setbeamerfont{block title}{size=\small}
-% \setbeamerfont{block body}{size=\small}
-\setbeamerfont{block title}{}
-\setbeamerfont{block body}{}
-\newenvironment<>{blueblock}[1]{
-    \setbeamercolor{block title}{fg=white,bg=hanblue}
-    \begin{block}#2{#1}}{\end{block}}
-\newenvironment<>{greenblock}[1]{
-    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indiagreen}
-    \begin{block}#2{#1}}{\end{block}}
-\newenvironment<>{redblock}[1]{
-    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianred}
-    \begin{block}#2{#1}}{\end{block}}
-\newenvironment<>{yellowblock}[1]{
-    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianyellow}
-    \begin{block}#2{#1}}{\end{block}}
+%\setbeamerfont{block title}{size=\small}
+%\setbeamerfont{block body}{size=\footnotesize}
+\newenvironment<>{blueblock}[1]{%
+	\setbeamercolor{block title}{fg=white,bg=hanblue}%
+	\begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{greenblock}[1]{%
+	\setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indiagreen}%
+	\begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{redblock}[1]{%
+	\setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianred}%
+	\begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{yellowblock}[1]{%
+	\setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianyellow}%
+	\begin{block}#2{#1}}{\end{block}}
 
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage{graphicx} % Allows including images
+%\usepackage{tikz}
+%\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{listings}
 \lstset{language=C++,
-columns=flexible,
-basicstyle=\footnotesize\ttfamily,                                      % 设定代码字体、大小
-%numbers=left,xleftmargin=2em,framexleftmargin=2em,                   % 在左侧显示行号
-%numberstyle=\color{darkgray},                                        % 设定行号格式
-keywordstyle=\color{blue},                                            % 设定关键字格式
-commentstyle=\color{ao(english)},                                     % 设置代码注释的格式
-stringstyle=\color{brown},                                            % 设置字符串格式
-%showstringspaces=false,                                              % 控制是否显示空格
-%frame=lines,                                                         % 控制外框
-breaklines,                                                           % 控制是否折行
-postbreak=\space,                                                     % 控制折行后显示的标识字符
-breakindent=5pt,                                                      % 控制折行后缩进数量
-emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple,unique\_ptr}, % 非内置类型
-emphstyle={\color{teal}},
-escapeinside={(*@}{@*)},
+	columns=flexible,
+	basicstyle=\small\ttfamily,                                      % 设定代码字体、大小
+	%numbers=left,xleftmargin=2em,framexleftmargin=2em,                   % 在左侧显示行号
+	%numberstyle=\color{darkgray},                                        % 设定行号格式
+	keywordstyle=\color{blue},                                            % 设定关键字格式
+	commentstyle=\color{ao(english)},                                     % 设置代码注释的格式
+	stringstyle=\color{brown},                                            % 设置字符串格式
+	%showstringspaces=false,                                              % 控制是否显示空格
+	%frame=lines,                                                         % 控制外框
+	breaklines,                                                           % 控制是否折行
+	postbreak=\space,                                                     % 控制折行后显示的标识字符
+	breakindent=5pt,                                                      % 控制折行后缩进数量
+	emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple,ifstream,ostream,Qt}, % 非内置类型
+	emphstyle={\color{teal}},
+	escapeinside={(*@}{@*)},
 }
+
 
 \title[\textit{Qt编程基础}]{Qt编程基础}
 
@@ -301,8 +320,62 @@ escapeinside={(*@}{@*)},
             \includegraphics[width=0.55\textwidth]{fig/model_intro.png}&
 			 \visible<2->{\includegraphics[width=0.4\textwidth]{fig/table_view.png}}
 			\end{tabular}
-\end{center}
-			
+\end{center}			
+\end{frame}
+
+
+\subsection{画图}
+
+\begin{frame}[fragile]{2~Qt基础}
+	(9) 画图(Painting)
+ \begin{center}
+       \includegraphics[width=0.7\textwidth]{fig/paintsystem-core.png}
+    \end{center}
+    \begin{itemize}
+      \item QPainter（画笔）用来执行绘制的操作；
+      \item QPaintDevice（画布）是一个二维空间的抽象，允许QPainter在其上面进行绘制；
+      \item QPaintEngine提供了QPainter在不同的设备上进行绘制的统一的接口。
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{2~Qt基础}
+	(9) 画图(Painting)
+
+\begin{columns}
+    \column{0.33\textwidth}
+    \begin{center}
+       \includegraphics[width=0.7\textwidth]{fig/coordinatesystem-rect.png}\\
+       坐标系
+    \end{center}  
+    \begin{lstlisting}[basicstyle=\scriptsize\ttfamily,   moreemph={QPainter,darkGreen}]
+    QPainter painter(this);
+    painter.setPen(Qt::darkGreen);
+    //Using the (x  y  w  h) overload
+    painter.drawRect(1, 2, 6, 4);
+    \end{lstlisting}\vspace{-2mm}
+    \column{0.33\textwidth}
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{fig/coordinatesystem-line-raster.png}
+    \end{center} 
+    \begin{lstlisting}[basicstyle=\scriptsize\ttfamily,moreemph={QPainter,darkGreen}]
+    QPainter painter(this);
+
+    painter.setPen(Qt::darkGreen);
+    painter.drawLine(2, 7, 6, 1);
+    \end{lstlisting}\vspace{-2mm}
+    \column{0.33\textwidth}
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{fig/coordinatesystem-line-antialias.png}\\
+    反走样
+    \end{center} 
+    \begin{lstlisting}[basicstyle=\scriptsize\ttfamily,moreemph={QPainter,darkGreen}]
+    QPainter painter(this);
+    painter.setRenderHint(
+        QPainter::Antialiasing);
+    painter.setPen(Qt::darkGreen);
+    painter.drawLine(2, 7, 6, 1);
+    \end{lstlisting}\vspace{-2mm}
+\end{columns}
 \end{frame}
 
 \section{示例}
